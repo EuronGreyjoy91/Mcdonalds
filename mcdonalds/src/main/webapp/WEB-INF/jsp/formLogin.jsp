@@ -18,7 +18,7 @@
                         <div class="input-field col s12 l6 offset-l3">
                             <i class="material-icons prefix">account_circle</i>
                             <input placeholder="Usuario" id="username" name = "username" type="text" class="validate" required>
-                            <label for="user">Usuario</label>
+                            <label for="user">Usuario </label>
                         </div>
                     </div>
                     <div class="row">
