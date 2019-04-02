@@ -1,0 +1,56 @@
+/********
+
+ESTILOS GENERALES
+
+********/
+
+@font-face {
+    font-family: "Helvetica";
+    src: url(../fonts/helvetica.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+nav{
+    background-color: red;
+}
+
+body {
+	 font-family: "Helvetica";
+     display: flex;
+     min-height: 100vh;
+     flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+
+/********
+
+CLASES
+
+********/
+
+.navbar-material .nav-wrapper .brand-logo img {
+    height: 64px;
+}
+
+.btn-yellow{
+    background-color: #ffc200;
+}
+
+.margin-top-30-px{
+    margin-top: 30px;
+}
+/********
+
+ESTILOS ID´S
+
+********/
+
+#logo{
+    height: 55px;
+    margin-top: 3px;
+}

@@ -1,0 +1,110 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+    <display-name>Servlet 3.0 Web Application</display-name>
+<!--   <servlet> -->
+<!--   	<display-name>IngredienteController</display-name> -->
+<!--   	<servlet-name>IngredienteController</servlet-name> -->
+<!--   	<servlet-class>controller.IngredienteController</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet> -->
+<!--   	<display-name>ItemController</display-name> -->
+<!--   	<servlet-name>ItemController</servlet-name> -->
+<!--   	<servlet-class>controller.ItemController</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet> -->
+<!--   	<display-name>ItemIngredienteController</display-name> -->
+<!--   	<servlet-name>ItemIngredienteController</servlet-name> -->
+<!--   	<servlet-class>controller.ItemIngredienteController</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet> -->
+<!--   	<display-name>LoginController</display-name> -->
+<!--   	<servlet-name>LoginController</servlet-name> -->
+<!--   	<servlet-class>controller.LoginController</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet> -->
+<!--   	<display-name>PedidoController</display-name> -->
+<!--   	<servlet-name>PedidoController</servlet-name> -->
+<!--   	<servlet-class>controller.PedidoController</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet> -->
+<!--   	<display-name>UsuarioController</display-name> -->
+<!--   	<servlet-name>UsuarioController</servlet-name> -->
+<!--   	<servlet-class>controller.UsuarioController</servlet-class> -->
+<!--   </servlet> -->
+<!--   <servlet-mapping> -->
+<!--   	<servlet-name>IngredienteController</servlet-name> -->
+<!--   	<url-pattern>/IngredienteController</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--   <servlet-mapping> -->
+<!--   	<servlet-name>ItemController</servlet-name> -->
+<!--   	<url-pattern>/ItemController</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--   <servlet-mapping> -->
+<!--   	<servlet-name>ItemIngredienteController</servlet-name> -->
+<!--   	<url-pattern>/ItemIngredienteController</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--   <servlet-mapping> -->
+<!--   	<servlet-name>LoginController</servlet-name> -->
+<!--   	<url-pattern>/LoginController</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--   <servlet-mapping> -->
+<!--   	<servlet-name>PedidoController</servlet-name> -->
+<!--   	<url-pattern>/PedidoController</url-pattern> -->
+<!--   </servlet-mapping> -->
+<!--   <servlet-mapping> -->
+<!--   	<servlet-name>UsuarioController</servlet-name> -->
+<!--   	<url-pattern>/UsuarioController</url-pattern> -->
+<!--   </servlet-mapping> -->
+
+<!-- 	DECLARO EL SERVLET CON NOMBRE MCDONALDS -->
+<!-- EL 1  SUPUESTAMENTE ES PARA QUE ARRANQUE DE UNA -->
+
+  <servlet>
+      <servlet-name>mcdonalds</servlet-name>
+      <servlet-class>
+         org.springframework.web.servlet.DispatcherServlet
+      </servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+<!-- 	ACA LO QUE HAGO ES DECIR, EL SERVLET MCDONALDS VA A MAPEAR TODAS LAS URL QUE TERMINEN CON .HTML -->
+<!-- NECESITO ADEMAS,UN ARCHIVO DE CONFIGURACION QUE SE LLAME DE LA MISMA MANERA QUE EL SERVLET. -->
+<!-- EN ESTE CASO SERIA mcdonalds-servlet.xml -->
+   <servlet-mapping>
+      <servlet-name>mcdonalds</servlet-name>
+      <url-pattern>/</url-pattern>
+    </servlet-mapping>
+<!-- 	<welcome-file-list> -->
+<!-- 		<welcome-file>index.jsp</welcome-file> -->
+<!-- 	</welcome-file-list> -->
+   
+<!--    declaracion del root application context -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+<!-- 	declaramos la ruta donde se encuentra el archivo de configuracion del root application context -->
+<!-- 	y la ruta del archivo security -->
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/root-context.xml,
+			/WEB-INF/security.xml
+		</param-value>
+	</context-param>
+	
+<!-- 	declaracion del servlet filter (Spring Security) -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+</web-app>
