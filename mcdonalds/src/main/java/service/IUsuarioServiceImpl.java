@@ -78,4 +78,14 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 			return usuarioRepository.contarUsuarios(nombre, apellido, documento);
 	}
 
+	@Override
+	public List<Usuario> obtenerUsuariosVendedor() {
+		return usuarioRepository.findByUsuarioTipo(usuarioTipoRepository.findById(UsuarioTipo.USUARIO_VENDEDOR).get());
+	}
+
+	@Override
+	public List<Usuario> obtenerUsuariosCocinero() {
+		return usuarioRepository.findByUsuarioTipo(usuarioTipoRepository.findById(UsuarioTipo.USUARIO_COCINERO).get());
+	}
+
 }

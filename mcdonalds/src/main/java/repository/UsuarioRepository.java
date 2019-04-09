@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import model.Usuario;
+import model.UsuarioTipo;
 
 @Repository
 @Transactional
@@ -18,6 +19,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	Usuario findByUsuarioAndContrasenia(String usuario, String contrasenia);
 	Optional<Usuario> findById(Integer id);
 	Usuario findByUsuario(String usuario);
+	List<Usuario> findByUsuarioTipo(UsuarioTipo usuarioTipo);
 	
 	@Query("SELECT u FROM Usuario u WHERE u.nombre LIKE CONCAT('%',:nombre,'%') "
 			+ "AND u.apellido LIKE CONCAT('%',:apellido,'%') "

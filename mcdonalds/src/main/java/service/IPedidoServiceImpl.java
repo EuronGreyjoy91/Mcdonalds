@@ -2,15 +2,23 @@ package service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -93,4 +101,30 @@ public class IPedidoServiceImpl implements IPedidoService{
 	public Pedido obtenerPedido(Integer id) {
 		return pedidoRepository.findById(id).get();
 	}
+	
+	
+//    public List<Pedido> searchPedidos(final Pedido searchCriteria) {
+//        List<Pedido> cases = pedidoRepository.findAll(PedidoSepeci.findByCriteria(searchCriteria));
+//        return cases;
+//    }
+//	
+//    private static class PedidoSepeci {
+//        private static Specification<Pedido> findByCriteria(final Pedido searchCriteria) {
+//            return new Specification<Pedido>() {
+//                @Override
+//                public Predicate toPredicate(Root<Pedido> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+//                    List<Predicate> predicates = new ArrayList<>();
+//                    if (searchCriteria.getCocinero() != null) {
+//                        Join<Pedido, Usuario> cocinero = root.join("cocinero");
+//                        predicates.add(cb.equal(cocinero.get("id"), searchCriteria.getCocinero()));
+//                    }
+////                    if (null != searchCriteria.getCountry()) {
+////                        Join<Case, Country> country = root.join("country");
+////                        predicates.add(cb.equal(country.get("id"), searchCriteria.getCountry()));
+////                    }
+//                    return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+//                }
+//            };
+//        }
+//    }
 }

@@ -50,7 +50,7 @@ public class UsuarioController{
 		model.addAttribute("pagina", pagina);
 		model.addAttribute("paginas", ((usuarioService.contarUsuarios(nombre, apellido, documento, usuarioTipo) - 1) / 10));
 		model.addAttribute("usuarioTipos", usuarioTipoService.obtenerUsuarioTipos());
-
+		
 		//Filtros
 		model.addAttribute("nombre", nombre);
 		model.addAttribute("apellido", apellido);

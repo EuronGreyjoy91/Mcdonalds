@@ -6,22 +6,37 @@
 package controller;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Pedido;
+import model.PedidoSpecification;
 import model.Usuario;
+import repository.PedidoRepository;
 import service.IItemService;
 import service.IPedidoService;
 import service.IUsuarioService;
@@ -43,12 +58,24 @@ public class PedidoController{
 	@Autowired
 	private IUsuarioService usuarioService;
 	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
 	@GetMapping(value = "/listar/{pagina}")
-	public String listarPedidos(Model model, @PathVariable Integer pagina, Authentication authentication) {
+	public String listarPedidos(@ModelAttribute Pedido pedido, BindingResult bindingResult, Model model, 
+			@PathVariable Integer pagina, Authentication authentication) {
 		
-		model.addAttribute("pedidos", pedidosPorUsuario(authentication, pagina));
+		Specification<Pedido> spec = new PedidoSpecification(pedido);
+		
+		Pageable pageable = PageRequest.of(pagina, 10, Sort.by("id").descending());
+//	    pedidoRepository.findAll(spec, pageable);
+		
+		model.addAttribute("pedidos", pedidoRepository.findAll(spec, pageable).getContent());
+//		model.addAttribute("pedidos", pedidoService.searchPedidos(searchCriteria));
 		model.addAttribute("pagina", pagina);
 		model.addAttribute("paginas", ((pedidoService.contarPedidos() - 1) / 10));
+		model.addAttribute("vendedores", usuarioService.obtenerUsuariosVendedor());
+		model.addAttribute("cocineros", usuarioService.obtenerUsuariosCocinero());
 		
 		return "pedido/abmPedido";
 	}

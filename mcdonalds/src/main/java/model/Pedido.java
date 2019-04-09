@@ -6,7 +6,7 @@
 package model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 /**
  *
@@ -32,8 +34,13 @@ public class Pedido {
     
     private Integer id;
     private BigDecimal monto;
-    private Timestamp fechaIngreso;
-    private Timestamp fechaDespacho;
+    
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date fechaIngreso;
+    
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date fechaDespacho;
+    
     private Usuario vendedor;
     private Usuario cocinero;
     private Set<ItemPedido> itemsPedido;
@@ -59,20 +66,20 @@ public class Pedido {
     }
 
     @Column(name = "fecha_ingreso")
-    public Timestamp getFechaIngreso() {
+    public Date getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(Timestamp fechaIngreso) {
+    public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
     @Column(name = "fecha_despacho")
-    public Timestamp getFechaDespacho() {
+    public Date getFechaDespacho() {
         return fechaDespacho;
     }
 
-    public void setFechaDespacho(Timestamp fechaDespacho) {
+    public void setFechaDespacho(Date fechaDespacho) {
         this.fechaDespacho = fechaDespacho;
     }
 

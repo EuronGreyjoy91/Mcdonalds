@@ -14,5 +14,15 @@ $(document).ready(function(){
             "<h4>&#191;Esta seguro que desea despachar el pedido "+id+"?</h4>"
        );
    });
+
    
+   $('.customDatePicker').pickadate({
+	    format: 'dd/mm/yyyy',
+	    monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+	    weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+	    today: 'Hoy',
+	    clear: 'Borrar',
+	    close: 'Cerrar'
+	  });
+//   $(".customDatePicker").datepicker();
 });

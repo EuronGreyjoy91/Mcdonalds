@@ -25,6 +25,38 @@
         <sec:authorize access = "hasAnyAuthority('COCINERO')">
 	        <h3>Ventas a despachar</h3>
         </sec:authorize>
+        <form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px" modelAttribute="pedido">
+           <div class="row">
+              	<div class="input-field col s12 l3 offset-l3">
+					<form:select path="vendedor.id">
+						<form:option value="">Seleccione una opci&oacute;n</form:option>
+						<form:options items="${vendedores}" itemValue = "id" itemLabel = "nombre"></form:options>
+					</form:select>
+                   <label>Vendedor</label>
+               	</div>
+
+               	<div class="input-field col s12 l3">
+					<form:select path="cocinero.id">
+						<form:option value="">Seleccione una opci&oacute;n</form:option>
+						<form:options items="${cocineros}" itemValue = "id" itemLabel = "nombre"></form:options>
+					</form:select>
+                   <label>Cocinero</label>
+               	</div>
+           </div>
+           <div class="row">
+              	<div class="input-field col s12 l3 offset-l3">
+					<form:input placeholder="Fecha de ingreso" id="fechaIngreso" path = "fechaIngreso" type="date" class="validate customDatePicker" data-value="${pedido.fechaIngreso}"/>
+                   	<label for="fechaIngreso">Fecha de ingreso</label>
+               	</div>
+               	<div class="input-field col s12 l3">
+					<form:input placeholder="Fecha de despacho" id="fechaDespacho" path = "fechaDespacho" type="text" class="validate customDatePicker" data-value="${pedido.fechaDespacho}"/>
+                   	<label for="fechaDespacho">Fecha de despacho</label>
+               	</div>
+           </div>
+           <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">Buscar
+               <i class="material-icons right">search</i>
+           </button>
+       	</form:form>
         <c:choose>
             <c:when test = "${not empty pedidos}">
                 <div class = "row margin-top-30-px">

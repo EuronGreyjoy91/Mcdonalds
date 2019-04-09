@@ -14,4 +14,5 @@ public interface IPedidoService {
 	Long contarPedidos();
 	void despacharPedido(Usuario cocinero, Pedido pedido);
 	void save(String items, BigDecimal monto);
+//	List<Pedido> searchPedidos(Pedido searchCriteria);
 }
