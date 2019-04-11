@@ -44,14 +44,14 @@ public class IPedidoServiceImpl implements IPedidoService{
 	private UsuarioRepository usuarioRepository;	
 	
 	@Override
-	public List<Pedido> obtenerPedidos(Integer pagina, Integer cantidad) {
-		return pedidoRepository.findAll(PageRequest.of(pagina, cantidad, Sort.by("id").descending())).getContent();
+	public List<Pedido> obtenerPedidos(Specification<Pedido> pedidoSpecification, Pageable pageable) {
+		return pedidoRepository.findAll(pedidoSpecification, pageable).getContent();
 	}
 
 	@Override
 	public void save(String items, BigDecimal monto) {
 		Pedido pedido = new Pedido();
-		pedido.setFechaIngreso(new Timestamp(new Date().getTime()));
+		pedido.setFechaIngreso(new Date());
 		pedido.setMonto(monto);
 		pedido.setVendedor(usuarioRepository.findById(2).get());
 		
@@ -75,25 +75,14 @@ public class IPedidoServiceImpl implements IPedidoService{
 	}
 
 	@Override
-	public List<Pedido> obtenerPedidosPorVendedor(Usuario vendedor, Integer pagina, Integer cantidad) {
-		Pageable pageable = PageRequest.of(pagina, cantidad, Sort.by("id").descending());
-		return pedidoRepository.findPedidoByVendedor(vendedor, pageable);
-	}
-
-	@Override
-	public Long contarPedidos() {
-		return pedidoRepository.count();
-	}
-
-	@Override
-	public List<Pedido> obtenerPedidosSinDespachar(Integer pagina, Integer cantidad) {
-		Pageable pageable = PageRequest.of(pagina, cantidad, Sort.by("id").descending());
-		return pedidoRepository.findPedidoByCocineroIsNull(pageable);
+	public Long contarPedidos(Specification<Pedido> pedidoSpecification) {
+		return pedidoRepository.count(pedidoSpecification);
 	}
 
 	@Override
 	public void despacharPedido(Usuario cocinero, Pedido pedido) {
 		pedido.setCocinero(cocinero);
+		pedido.setFechaDespacho(new Date());
 		pedidoRepository.save(pedido);
 	}
 
@@ -101,30 +90,4 @@ public class IPedidoServiceImpl implements IPedidoService{
 	public Pedido obtenerPedido(Integer id) {
 		return pedidoRepository.findById(id).get();
 	}
-	
-	
-//    public List<Pedido> searchPedidos(final Pedido searchCriteria) {
-//        List<Pedido> cases = pedidoRepository.findAll(PedidoSepeci.findByCriteria(searchCriteria));
-//        return cases;
-//    }
-//	
-//    private static class PedidoSepeci {
-//        private static Specification<Pedido> findByCriteria(final Pedido searchCriteria) {
-//            return new Specification<Pedido>() {
-//                @Override
-//                public Predicate toPredicate(Root<Pedido> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-//                    List<Predicate> predicates = new ArrayList<>();
-//                    if (searchCriteria.getCocinero() != null) {
-//                        Join<Pedido, Usuario> cocinero = root.join("cocinero");
-//                        predicates.add(cb.equal(cocinero.get("id"), searchCriteria.getCocinero()));
-//                    }
-////                    if (null != searchCriteria.getCountry()) {
-////                        Join<Case, Country> country = root.join("country");
-////                        predicates.add(cb.equal(country.get("id"), searchCriteria.getCountry()));
-////                    }
-//                    return cb.and(predicates.toArray(new Predicate[predicates.size()]));
-//                }
-//            };
-//        }
-//    }
 }

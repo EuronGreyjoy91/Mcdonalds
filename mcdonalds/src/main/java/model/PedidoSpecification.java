@@ -19,7 +19,7 @@ public class PedidoSpecification implements Specification<Pedido>{
 	private final Pedido criteria;
 
     public PedidoSpecification(Pedido criteria) {
-        this.criteria=criteria;
+        this.criteria = criteria;
     }
     
 	@Override
@@ -81,6 +81,9 @@ public class PedidoSpecification implements Specification<Pedido>{
         	predicates.add(startPredicate);
         	predicates.add(endPredicate);
         }
+        
+        if(criteria.getListarPedidosSinDespachar())
+        	predicates.add(cb.isNull(root.get("fechaDespacho")));
         
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 	}

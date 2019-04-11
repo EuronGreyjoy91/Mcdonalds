@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Ingrediente;
+import model.Utilities;
 import service.IIngredienteService;
 
 /**
@@ -35,9 +36,9 @@ public class IngredienteController{
 	public String listarIngredientes(Model model, @PathVariable Integer pagina,
 			@RequestParam (required = false, defaultValue = "") String nombre) {
 		
-		model.addAttribute("ingredientes", ingredienteService.obtenerIngredientes(pagina, 10, nombre));
+		model.addAttribute("ingredientes", ingredienteService.obtenerIngredientes(pagina, Utilities.REGISTROS_POR_PAGINA, nombre));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((ingredienteService.contarIngredientes(nombre) - 1) / 10));
+		model.addAttribute("paginas", ((ingredienteService.contarIngredientes(nombre) - 1) / Utilities.REGISTROS_POR_PAGINA));
 		
 		//Filtros
 		model.addAttribute("nombre", nombre);

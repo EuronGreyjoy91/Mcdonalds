@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Item;
+import model.Utilities;
 import service.IItemService;
 
 /**
@@ -33,9 +34,9 @@ public class ItemController{
 
     @GetMapping(value = "/listar/{pagina}")
     public String listarItems(Model model, @PathVariable Integer pagina) {
-    	model.addAttribute("items", itemService.obtenerItems(pagina, 10));
+    	model.addAttribute("items", itemService.obtenerItems(pagina, Utilities.REGISTROS_POR_PAGINA));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((itemService.contarItems() - 1) / 10));
+		model.addAttribute("paginas", ((itemService.contarItems() - 1) / Utilities.REGISTROS_POR_PAGINA));
     	return "item/abmItem";
     }
     	

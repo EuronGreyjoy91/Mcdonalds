@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Usuario;
+import model.Utilities;
 import service.IUsuarioService;
 import service.IUsuarioTipoService;
 
@@ -46,9 +47,9 @@ public class UsuarioController{
 			@RequestParam (required = false, defaultValue = "") String documento,
 			@RequestParam (required = false) Integer usuarioTipo) {
 		
-		model.addAttribute("usuarios", usuarioService.obtenerUsuarios(pagina, 10, nombre, apellido, documento, usuarioTipo));
+		model.addAttribute("usuarios", usuarioService.obtenerUsuarios(pagina, Utilities.REGISTROS_POR_PAGINA, nombre, apellido, documento, usuarioTipo));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((usuarioService.contarUsuarios(nombre, apellido, documento, usuarioTipo) - 1) / 10));
+		model.addAttribute("paginas", ((usuarioService.contarUsuarios(nombre, apellido, documento, usuarioTipo) - 1) / Utilities.REGISTROS_POR_PAGINA));
 		model.addAttribute("usuarioTipos", usuarioTipoService.obtenerUsuarioTipos());
 		
 		//Filtros

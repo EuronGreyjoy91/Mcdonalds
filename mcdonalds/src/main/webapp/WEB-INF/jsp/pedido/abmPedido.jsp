@@ -14,6 +14,11 @@
     var _urlDespacharPedido = "<c:out value = '${urlDespacharPedido}'/>";
 </script>
 <script src = "${urlResources}/js/abmPedido.js"></script>
+<body>
+	<fmt:formatDate value="${pedido.fechaIngreso}" pattern="dd/MM/yyyy" var="fechaIngreso"/>
+    <fmt:formatDate value="${pedido.fechaDespacho}" pattern="dd/MM/yyyy" var="fechaDespacho"/>
+	<c:set var = "queryString" scope = "session" value = "&vendedor.id=${pedido.vendedor.id}&cocinero.id=${pedido.cocinero.id}&fechaIngreso=${fechaIngreso}&fechaDespacho=${fechaDespacho}"/>
+	
     <div style = "margin-left: 20px; margin-right: 20px">
     	<sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
 	        <h3>Ventas</h3>
@@ -26,30 +31,32 @@
 	        <h3>Ventas a despachar</h3>
         </sec:authorize>
         <form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px" modelAttribute="pedido">
+       		<sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
+	           <div class="row">
+	              	<div class="input-field col s12 l3 offset-l3">
+						<form:select path="vendedor.id">
+							<form:option value="">Seleccione una opci&oacute;n</form:option>
+							<form:options items="${vendedores}" itemValue = "id" itemLabel = "nombre"></form:options>
+						</form:select>
+	                   <label>Vendedor</label>
+	               	</div>
+	
+	               	<div class="input-field col s12 l3">
+						<form:select path="cocinero.id">
+							<form:option value="">Seleccione una opci&oacute;n</form:option>
+							<form:options items="${cocineros}" itemValue = "id" itemLabel = "nombre"></form:options>
+						</form:select>
+	                   <label>Cocinero</label>
+	               	</div>
+	           </div>
+           </sec:authorize>
            <div class="row">
               	<div class="input-field col s12 l3 offset-l3">
-					<form:select path="vendedor.id">
-						<form:option value="">Seleccione una opci&oacute;n</form:option>
-						<form:options items="${vendedores}" itemValue = "id" itemLabel = "nombre"></form:options>
-					</form:select>
-                   <label>Vendedor</label>
-               	</div>
-
-               	<div class="input-field col s12 l3">
-					<form:select path="cocinero.id">
-						<form:option value="">Seleccione una opci&oacute;n</form:option>
-						<form:options items="${cocineros}" itemValue = "id" itemLabel = "nombre"></form:options>
-					</form:select>
-                   <label>Cocinero</label>
-               	</div>
-           </div>
-           <div class="row">
-              	<div class="input-field col s12 l3 offset-l3">
-					<form:input placeholder="Fecha de ingreso" id="fechaIngreso" path = "fechaIngreso" type="date" class="validate customDatePicker" data-value="${pedido.fechaIngreso}"/>
+					<form:input placeholder="Fecha de ingreso" id="fechaIngreso" path = "fechaIngreso" type="date" class="validate customDatePicker" data-value="${fechaIngreso}"/>
                    	<label for="fechaIngreso">Fecha de ingreso</label>
                	</div>
                	<div class="input-field col s12 l3">
-					<form:input placeholder="Fecha de despacho" id="fechaDespacho" path = "fechaDespacho" type="text" class="validate customDatePicker" data-value="${pedido.fechaDespacho}"/>
+					<form:input placeholder="Fecha de despacho" id="fechaDespacho" path = "fechaDespacho" type="text" class="validate customDatePicker" data-value="${fechaDespacho}"/>
                    	<label for="fechaDespacho">Fecha de despacho</label>
                	</div>
            </div>

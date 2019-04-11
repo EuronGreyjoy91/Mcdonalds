@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -44,6 +45,9 @@ public class Pedido {
     private Usuario vendedor;
     private Usuario cocinero;
     private Set<ItemPedido> itemsPedido;
+    
+    @Transient
+    private Boolean listarPedidosSinDespachar;
     
     @Id
     @Column(name = "id")
@@ -110,5 +114,14 @@ public class Pedido {
 
 	public void setItemsPedido(Set<ItemPedido> itemsPedido) {
 		this.itemsPedido = itemsPedido;
+	}
+
+	@Transient
+	public Boolean getListarPedidosSinDespachar() {
+		return listarPedidosSinDespachar;
+	}
+
+	public void setListarPedidosSinDespachar(Boolean listarPedidosSinDespachar) {
+		this.listarPedidosSinDespachar = listarPedidosSinDespachar;
 	}
 }
