@@ -6,6 +6,10 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Usuario;
+import model.UsuarioSpecification;
 import model.Utilities;
 import service.IUsuarioService;
 import service.IUsuarioTipoService;
@@ -41,22 +46,20 @@ public class UsuarioController{
 	private IUsuarioTipoService usuarioTipoService;
 	
 	@GetMapping(value = "/listar/{pagina}")
-	public String listarUsuarios(Model model, @PathVariable Integer pagina,
+	public String listarUsuarios(@ModelAttribute Usuario usuario, BindingResult bindingResult,
+			Model model, @PathVariable Integer pagina,
 			@RequestParam (required = false, defaultValue = "") String nombre, 
 			@RequestParam (required = false, defaultValue = "") String apellido,
 			@RequestParam (required = false, defaultValue = "") String documento,
 			@RequestParam (required = false) Integer usuarioTipo) {
 		
-		model.addAttribute("usuarios", usuarioService.obtenerUsuarios(pagina, Utilities.REGISTROS_POR_PAGINA, nombre, apellido, documento, usuarioTipo));
-		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((usuarioService.contarUsuarios(nombre, apellido, documento, usuarioTipo) - 1) / Utilities.REGISTROS_POR_PAGINA));
-		model.addAttribute("usuarioTipos", usuarioTipoService.obtenerUsuarioTipos());
+		Specification<Usuario> spec = new UsuarioSpecification(usuario);
+		Pageable pageable = PageRequest.of(pagina, Utilities.REGISTROS_POR_PAGINA, Sort.by("id").descending());
 		
-		//Filtros
-		model.addAttribute("nombre", nombre);
-		model.addAttribute("apellido", apellido);
-		model.addAttribute("documento", documento);
-		model.addAttribute("usuarioTipoSeleccionado", usuarioTipo);
+		model.addAttribute("usuarios", usuarioService.obtenerUsuarios(spec, pageable));
+		model.addAttribute("pagina", pagina);
+		model.addAttribute("paginas", ((usuarioService.contarUsuarios(spec) - 1) / Utilities.REGISTROS_POR_PAGINA));
+		model.addAttribute("usuarioTipos", usuarioTipoService.obtenerUsuarioTipos());
 		
 		return "usuario/abmUsuario";
 	}

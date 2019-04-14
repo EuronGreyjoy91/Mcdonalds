@@ -3,9 +3,9 @@ package service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import model.Ingrediente;
@@ -18,9 +18,8 @@ public class IIngredienteServiceImpl implements IIngredienteService{
 	private IngredienteRepository ingredienteRepository;
 
 	@Override
-	public List<Ingrediente> obtenerIngredientes(Integer pagina, Integer cantidad, String nombre) {
-		Pageable pageable = PageRequest.of(pagina, cantidad, Sort.by("id").descending());
-		return ingredienteRepository.obtenerIngredientes(nombre, pageable);
+	public List<Ingrediente> obtenerIngredientes(Specification<Ingrediente> ingredienteSpecification, Pageable pageable) {
+		return ingredienteRepository.findAll(ingredienteSpecification, pageable).getContent();
 	}
 
 	@Override
@@ -34,8 +33,8 @@ public class IIngredienteServiceImpl implements IIngredienteService{
 	}
 
 	@Override
-	public Long contarIngredientes(String nombre) {
-		return ingredienteRepository.contarIngredientes(nombre);
+	public Long contarIngredientes(Specification<Ingrediente> ingredienteSpecification) {
+		return ingredienteRepository.count(ingredienteSpecification);
 	}
 
 	@Override

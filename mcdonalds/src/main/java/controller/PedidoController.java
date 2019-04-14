@@ -6,8 +6,6 @@
 package controller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,10 +27,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import model.Pedido;
 import model.PedidoSpecification;
 import model.Usuario;
+import model.UsuarioSpecification;
+import model.UsuarioTipo;
 import model.Utilities;
 import service.IItemService;
 import service.IPedidoService;
 import service.IUsuarioService;
+import service.IUsuarioTipoService;
 
 /**
  *
@@ -50,6 +51,9 @@ public class PedidoController{
 	
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private IUsuarioTipoService usuarioTipoService;
 	
 	@GetMapping(value = "/listar/{pagina}")
 	public String listarPedidos(@ModelAttribute Pedido pedido, BindingResult bindingResult, Model model, 
@@ -71,8 +75,15 @@ public class PedidoController{
 		model.addAttribute("pedidos", pedidoService.obtenerPedidos(spec, pageable));
 		model.addAttribute("pagina", pagina);
 		model.addAttribute("paginas", ((pedidoService.contarPedidos(spec)) - 1) / Utilities.REGISTROS_POR_PAGINA);
-		model.addAttribute("vendedores", usuarioService.obtenerUsuariosVendedor());
-		model.addAttribute("cocineros", usuarioService.obtenerUsuariosCocinero());
+		
+		Usuario usuario = new Usuario();
+		usuario.setUsuarioTipo(usuarioTipoService.obtenerUsuarioTipo(UsuarioTipo.USUARIO_VENDEDOR));
+		Specification<Usuario> usuarioSpec = new UsuarioSpecification(usuario);
+		model.addAttribute("vendedores", usuarioService.obtenerUsuarios(usuarioSpec));
+		
+		usuario.setUsuarioTipo(usuarioTipoService.obtenerUsuarioTipo(UsuarioTipo.USUARIO_COCINERO));
+		usuarioSpec = new UsuarioSpecification(usuario);
+		model.addAttribute("cocineros", usuarioService.obtenerUsuarios(usuarioSpec));
 		
 		return "pedido/abmPedido";
 	}

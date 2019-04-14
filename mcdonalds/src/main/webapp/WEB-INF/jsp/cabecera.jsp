@@ -34,7 +34,9 @@
         <link rel="stylesheet" href="${urlResources}/css/jquery-ui.theme.min.css">
         <link rel="stylesheet" href="${urlResources}/css/estilos.css">
         <script src="${urlResources}/js/jquery-ui.min.js"></script>
+        <script src="${urlResources}/js/jquery.validate.min.js"></script>
         <script src="${urlResources}/js/scripts.js"></script>
+        <script src="${urlResources}/js/validate-form.js"></script>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         
         <link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/compressed/themes/default.css" rel="stylesheet" />

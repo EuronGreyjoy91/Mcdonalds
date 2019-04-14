@@ -3,8 +3,9 @@ package service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import model.Item;
@@ -17,8 +18,8 @@ public class IItemServiceImpl implements IItemService{
 	private ItemRepository itemRepository;
 	
 	@Override
-	public List<Item> obtenerItems(Integer pagina, Integer cantidad) {
-		return itemRepository.findAll(PageRequest.of(pagina, cantidad, Sort.by("id").ascending())).getContent();
+	public List<Item> obtenerItems(Specification<Item> itemSpecification, Pageable pageable) {
+		return itemRepository.findAll(itemSpecification, pageable).getContent();
 	}
 
 	@Override
@@ -32,8 +33,8 @@ public class IItemServiceImpl implements IItemService{
 	}
 
 	@Override
-	public Long contarItems() {
-		return itemRepository.count();
+	public Long contarItems(Specification<Item> itemSpecification) {
+		return itemRepository.count(itemSpecification);
 	}
 
 	@Override

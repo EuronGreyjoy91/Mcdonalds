@@ -13,7 +13,7 @@ import model.Usuario;
 
 @Repository
 @Transactional
-public interface PedidoRepository extends JpaRepository<Pedido, Integer>,  JpaSpecificationExecutor<Pedido>{
+public interface PedidoRepository extends JpaRepository<Pedido, Integer>, JpaSpecificationExecutor<Pedido>{
 	List<Pedido> findPedidoByVendedor(Usuario vendedor, Pageable pageable);
 	List<Pedido> findPedidoByCocineroIsNull(Pageable pageable);
 }

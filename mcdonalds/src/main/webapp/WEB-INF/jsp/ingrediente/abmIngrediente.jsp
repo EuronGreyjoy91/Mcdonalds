@@ -13,16 +13,16 @@
 </script>
 <script src = "${urlResources}/js/abmIngrediente.js"></script>
 <body>
-	<c:set var = "queryString" scope = "session" value = "&nombre=${nombre}"/>
+	<c:set var = "queryString" scope = "session" value = "&nombre=${ingrediente.nombre}"/>
     <div style = "margin-left: 20px; margin-right: 20px">
-        <h3>Ingredientes</h3>
+        <h3>Ingredientes <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
         <a href = "${urlNuevo}" class="waves-effect waves-light btn btn-yellow"><i class="material-icons left">add</i>Nuevo</a>
-        <form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px">
+        <form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px" modelAttribute="ingrediente">
            <div class="row">
-               <div class="input-field col s12 l4 offset-l4">
-                   <input placeholder="Buscar por nombre" id="nombre" name = "nombre" type="text" class="validate" value = "<c:out value = "${nombre}"/>"/>
-                   <label for="nombre">Nombre</label>
-               </div>
+              	<div class="input-field col s12 l4 offset-l4">
+					<form:input placeholder="Nombre" id="nombre" path = "nombre" type="text" class="validate"/>
+                    <label for="nombre">Nombre</label>
+               	</div>
            </div>
            <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">Buscar
                <i class="material-icons right">search</i>
@@ -45,7 +45,9 @@
                                     <td><c:out value = "${ingrediente.id}"/></td>
                                     <td><c:out value = "${ingrediente.nombre}"/></td>
                                     <td>
-                                        <a href = "${urlEditar}/<c:out value = "${ingrediente.id}"/>"class="waves-effect waves-light btn-small red lighten-1"><i class="material-icons left">edit</i>Editar</a>
+                                        <a href = "${urlEditar}/<c:out value = "${ingrediente.id}"/>"class="waves-effect waves-light btn-small red lighten-1">
+                                        	<i class="material-icons">edit</i><span class = "hide-on-small-only vertical-align">&nbsp;Editar</span>
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>

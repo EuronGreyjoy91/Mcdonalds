@@ -13,7 +13,10 @@
 </script>
 <script src = "${urlResources}/js/abmItemIngrediente.js"></script>
     <div style = "margin-left: 20px; margin-right: 20px">
-        <h3>Ingredientes del Item <i><c:out value = "${item.nombre}"/></i></h3>
+        <h3>
+	        Ingredientes del Item <i><c:out value = "${item.nombre}"/></i>
+	        <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button>
+        </h3>
         <a href = "${urlNuevo}/<c:out value = "${item.id}"/>/nuevo" class="waves-effect waves-light btn btn-yellow"><i class="material-icons left">add</i>Nuevo</a>
         <c:choose>
             <c:when test = "${not empty itemIngredientes}">
@@ -34,7 +37,9 @@
                                     <td><c:out value = "${itemIngrediente.ingrediente.nombre}"/></td>
                                     <td><c:out value = "${itemIngrediente.cantidad}"/></td>
                                     <td>
-                                        <a href = "${urlEditar}/<c:out value = "${itemIngrediente.id}"/>/editar"class="waves-effect waves-light btn-small red lighten-1"><i class="material-icons left">edit</i>Editar</a>
+                                        <a href = "${urlEditar}/<c:out value = "${itemIngrediente.id}"/>/editar"class="waves-effect waves-light btn-small red lighten-1">
+                                        	<i class="material-icons">edit</i><span class = "hide-on-small-only vertical-align">Editar</span>
+                                       	</a>
                                     </td>
                                 </tr>
                             </c:forEach>

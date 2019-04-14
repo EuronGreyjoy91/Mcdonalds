@@ -11,7 +11,7 @@
 </script>
 <script src = "js/abmUsuario.js"></script>
     <div style = "margin-left: 20px; margin-right: 20px">
-        <h3>Items del pedido <i><c:out value = "${idPedido}"/></i></h3>
+        <h3>Items del pedido <i><c:out value = "${idPedido}"/></i> <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
         <c:choose>
             <c:when test = "${not empty itemsPedido}">
                 <div class = "row margin-top-30-px">

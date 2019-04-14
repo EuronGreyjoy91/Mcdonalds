@@ -18,7 +18,7 @@
             </c:otherwise>
         </c:choose>
         <div class="row">
-            <form:form class="col l6" action = "${urlGuardar}" method = "POST" modelAttribute="usuario" autocomplete = "off">
+            <form:form class="col l6 form-validate" action = "${urlGuardar}" method = "POST" modelAttribute="usuario" autocomplete = "off" id = "usuario-form">
             	<input type = "hidden" name = "${_csrf.parameterName}" value = "${_csrf.token}"/>
                 <form:hidden id = "id" path = "id" />
                 <div class="row">
@@ -27,19 +27,19 @@
                         <label for="nombre">Nombre</label>
                     </div>
                     <div class="input-field col s12 l3">
-                        <form:input id="apellido" path = "apellido" type="text" class="validate" required = "required"/>
+                        <form:input placeholder="Apellido" id="apellido" path = "apellido" type="text" class="validate" required = "required"/>
                         <label for="last_name">Apellido</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 l6">
-                        <form:input id="documento" path = "documento" type="number" class="validate" required = "required"/>
+                        <form:input placeholder="Documento" id="documento" path = "documento" type="number" class="validate" required = "required"/>
                         <label for="documento">Documento</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12 l6">
-                        <form:input id="usuario" path = "usuario" type="text" class="validate" required = "required"/>
+                        <form:input placeholder="Usuario" id="usuario" path = "usuario" type="text" class="validate" required = "required"/>
                         <label for="usuario">Usuario</label>
                     </div>
                 </div>
@@ -57,8 +57,11 @@
                         <label>Tipo</label>
                     </div>
                 </div>
-                <button class="btn waves-effect waves-light btn-yellow" type="submit" name="action">Guardar
-                    <i class="material-icons right">add</i>
+                <button class="btn waves-effect waves-light red" type="button" name="action" onclick="window.history.go(-1)">Cancelar
+                    <i class="material-icons right">cancel</i>
+                </button>
+                <button class="btn waves-effect waves-light green" type="submit" name="action">Guardar
+                    <i class="material-icons right">check</i>
                 </button>
             </form:form>
         </div>

@@ -16,7 +16,7 @@
             </c:otherwise>
         </c:choose>
         <div class="row">
-            <form:form class="col s6" action = "${urlGuardar}" method = "POST" modelAttribute = "itemIngrediente">
+            <form:form class="col s6 form-validate" action = "${urlGuardar}" method = "POST" modelAttribute = "itemIngrediente">
             	<input type = "hidden" name = "${_csrf.parameterName}" value = "${_csrf.token}"/>
                 <form:hidden id = "id" path = "id"/>
                 <form:hidden path = "item.id" value = "${idItem}"/>
@@ -32,8 +32,11 @@
                         <label>Ingrediente</label>
                     </div>
                 </div>
-                <button class="btn waves-effect waves-light btn-yellow" type="submit" name="action">Guardar
-                    <i class="material-icons right">add</i>
+                <button class="btn waves-effect waves-light red" type="button" name="action" onclick="window.history.go(-1)">Cancelar
+                    <i class="material-icons right">cancel</i>
+                </button>
+                <button class="btn waves-effect waves-light green" type="submit" name="action">Guardar
+                    <i class="material-icons right">check</i>
                 </button>
             </form:form>
         </div>

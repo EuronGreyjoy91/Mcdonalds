@@ -21,14 +21,14 @@
 	
     <div style = "margin-left: 20px; margin-right: 20px">
     	<sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
-	        <h3>Ventas</h3>
+	        <h3>Ventas <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
         </sec:authorize>
         <sec:authorize access = "hasAnyAuthority('VENDEDOR')">
-	        <h3>Mis ventas</h3>
+	        <h3>Mis ventas <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
 	        <a href = "${urlNuevo}" class="waves-effect waves-light btn btn-yellow"><i class="material-icons left">add</i>Nueva</a>
         </sec:authorize>
         <sec:authorize access = "hasAnyAuthority('COCINERO')">
-	        <h3>Ventas a despachar</h3>
+	        <h3>Ventas a despachar <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
         </sec:authorize>
         <form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px" modelAttribute="pedido">
        		<sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
@@ -80,36 +80,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:set var = "totalDia" value = "0"/>
-                            <c:set var = "totalGeneral" value = "0"/>
-                            
                             <c:forEach items = "${pedidos}" var = "pedido" varStatus="loop">
-                            	<sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
-	                                <c:set var="totalGeneral" value="${totalGeneral + pedido.monto}"/>                           
-	
-	                                
-	                                <c:if test = "${loop.first}">
-	                                    <fmt:formatDate var="diaComparador" value="${pedido.fechaIngreso}" pattern="yyyy-MM-dd" />
-	                                    <fmt:formatDate var="diaMostrar" value="${pedido.fechaIngreso}" pattern="dd/MM/yyyy" />
-	                                </c:if>
-	                                
-	                                <fmt:formatDate var="diaPedido" value="${pedido.fechaIngreso}" pattern="yyyy-MM-dd" />
-	                                <c:choose>
-	                                    <c:when test = "${diaComparador eq diaPedido}">
-	                                        <c:set var="totalDia" value="${totalDia + pedido.monto}"/>                           
-	                                    </c:when>
-	                                    <c:otherwise>
-	                                        <tr>
-	                                            <td colspan = "5" style = "text-align: right"><b>Total del d&iacute;a <c:out value = "${diaMostrar}"/>: </b></td>
-	                                            <td><b>$ <fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value = "${totalDia}" /></b></td>
-	                                            <td></td>
-	                                        </tr>
-	                                        <c:set var = "totalDia"  value = "${pedido.monto}"/>
-	                                        <fmt:formatDate var="diaComparador" value="${pedido.fechaIngreso}" pattern="yyyy-MM-dd" />
-	                                        <fmt:formatDate var="diaMostrar" value="${pedido.fechaIngreso}" pattern="dd/MM/yyyy" />
-	                                    </c:otherwise>
-	                                </c:choose>  
-                                </sec:authorize>
                                 <tr>
                                     <td><c:out value = "${pedido.id}"/></td>
                                     <td><fmt:formatDate pattern = "dd/MM/yyyy HH:mm" value = "${pedido.fechaIngreso}"/></td>
@@ -119,28 +90,16 @@
                                     <td>$ <fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value = "${pedido.monto}" /></td>
                                     <td>
                                         <sec:authorize access = "hasAnyAuthority('COCINERO')">
-                                            <a href = "#" class="waves-effect waves-light btn-small blue lighten-1 despachar" data-id-pedido = "<c:out value = "${pedido.id}"/>"><i class="material-icons left">done</i>Despachar</a>
+                                            <a href = "#" class="waves-effect waves-light btn-small blue lighten-1 despachar" data-id-pedido = "<c:out value = "${pedido.id}"/>">
+                                            	<i class="material-icons">done</i><span class = "hide-on-small-only vertical-align">&nbsp;Despachar</span>
+                                           	</a>
                                         </sec:authorize>
-                                        <a href = "${urlListarItemsPedido}/<c:out value = "${pedido.id}"/>"class="waves-effect waves-light btn-small green lighten-1"><i class="material-icons left">description</i>Detalle</a>
+                                        <a href = "${urlListarItemsPedido}/<c:out value = "${pedido.id}"/>"class="waves-effect waves-light btn-small green lighten-1">
+                                        	<i class="material-icons">description</i><span class = "hide-on-small-only vertical-align">&nbsp;Detalle</span>
+                                       	</a>
                                     </td>
                                 </tr>
-                                <sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
-	                                <c:if test = "${loop.last}">
-	                                    <tr>
-	                                        <td colspan = "5" style = "text-align: right"><b>Total del d&iacute;a <c:out value = "${diaMostrar}"/>: </b></td>
-	                                        <td><b>$ <fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value = "${totalDia}" /></b></td>
-	                                        <td></td>
-	                                    </tr>
-	                                </c:if>
-                                </sec:authorize>
                             </c:forEach>
-                            <sec:authorize access = "hasAnyAuthority('ADMINISTRADOR')">
-	                            <tr>
-	                                <td colspan = "5" style = "text-align: right; color: #66BB6A"><h5><b>Total general: </b></h5></td>
-	                                <td style = "color: #66BB6A"><h5><b>$ <fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value = "${totalGeneral}" /></b></h5></td>
-	                                <td></td>
-	                            </tr>
-                            </sec:authorize>
                         </tbody>
                     </table>
                 </div>

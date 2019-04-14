@@ -26,7 +26,6 @@ main {
     flex: 1 0 auto;
 }
 
-
 /********
 
 CLASES
@@ -44,6 +43,15 @@ CLASES
 .margin-top-30-px{
     margin-top: 30px;
 }
+
+.vertical-align{
+	vertical-align: middle;
+}
+
+.material-icons, .icon-text {
+	vertical-align: middle;
+}
+
 /********
 
 ESTILOS ID´S

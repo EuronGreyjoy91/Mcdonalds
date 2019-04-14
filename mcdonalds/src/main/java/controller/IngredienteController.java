@@ -6,6 +6,10 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Ingrediente;
+import model.IngredienteSpecification;
 import model.Utilities;
 import service.IIngredienteService;
 
@@ -33,15 +37,14 @@ public class IngredienteController{
 	private IIngredienteService ingredienteService;
 	
 	@GetMapping(value = "/listar/{pagina}")
-	public String listarIngredientes(Model model, @PathVariable Integer pagina,
-			@RequestParam (required = false, defaultValue = "") String nombre) {
+	public String listarIngredientes(@ModelAttribute Ingrediente ingrediente, Model model, @PathVariable Integer pagina) {
 		
-		model.addAttribute("ingredientes", ingredienteService.obtenerIngredientes(pagina, Utilities.REGISTROS_POR_PAGINA, nombre));
+		Specification<Ingrediente> spec = new IngredienteSpecification(ingrediente);
+		Pageable pageable = PageRequest.of(pagina, Utilities.REGISTROS_POR_PAGINA, Sort.by("id").descending());
+		
+		model.addAttribute("ingredientes", ingredienteService.obtenerIngredientes(spec, pageable));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((ingredienteService.contarIngredientes(nombre) - 1) / Utilities.REGISTROS_POR_PAGINA));
-		
-		//Filtros
-		model.addAttribute("nombre", nombre);
+		model.addAttribute("paginas", ((ingredienteService.contarIngredientes(spec) - 1) / Utilities.REGISTROS_POR_PAGINA));
 		
 		return "ingrediente/abmIngrediente";
 	}
