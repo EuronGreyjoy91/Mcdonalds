@@ -12,10 +12,7 @@ import model.Usuario;
 public interface IPedidoService {
 	Pedido obtenerPedido(Integer id);
 	List<Pedido> obtenerPedidos(Specification<Pedido> pedidoSpecification, Pageable pageable);
-//	List<Pedido> obtenerPedidosPorVendedor(Usuario vendedor, Integer pagina, Integer cantidad);
-//	List<Pedido> obtenerPedidosSinDespachar(Integer pagina, Integer cantidad);
 	Long contarPedidos(Specification<Pedido> pedidoSpecification);
 	void despacharPedido(Usuario cocinero, Pedido pedido);
 	void save(String items, BigDecimal monto);
-//	List<Pedido> searchPedidos(Pedido searchCriteria);
 }

@@ -12,7 +12,6 @@
     var _alert = "<c:out value = '${response}'/>";
 </script>
 <script src = "${urlResources}/js/abmIngrediente.js"></script>
-<body>
 	<c:set var = "queryString" scope = "session" value = "&nombre=${ingrediente.nombre}"/>
     <div style = "margin-left: 20px; margin-right: 20px">
         <h3>Ingredientes <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>

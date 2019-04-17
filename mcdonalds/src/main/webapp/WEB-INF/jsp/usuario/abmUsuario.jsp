@@ -14,7 +14,6 @@
     var _urlReasignar = "<c:out value = '${urlReasignar}'/>";
 </script>
 <script src = "${urlResources}/js/abmUsuario.js"></script>
-<body>
 	<c:set var = "queryString" scope = "session" value = "&nombre=${usuario.nombre}&apellido=${usuario.apellido}&documento=${usuario.documento}&usuarioTipo.id=${usuario.usuarioTipo.id}"/>
     <div style = "margin-left: 20px; margin-right: 20px">
         <h3>Usuarios <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
@@ -55,6 +54,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Tipo</th>
+                                <th>Usuario</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>Documento</th> 
@@ -66,6 +66,7 @@
                                 <tr>
                                     <td><c:out value = "${usuario.id}"/></td>
                                     <td><c:out value = "${usuario.usuarioTipo.nombre}"/></td>
+                                    <td><c:out value = "${usuario.usuario}"/></td>
                                     <td><c:out value = "${usuario.nombre}"/></td>
                                     <td><c:out value = "${usuario.apellido}"/></td>
                                     <td><c:out value = "${usuario.documento}"/></td>

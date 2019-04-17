@@ -14,7 +14,6 @@
     var _urlDespacharPedido = "<c:out value = '${urlDespacharPedido}'/>";
 </script>
 <script src = "${urlResources}/js/abmPedido.js"></script>
-<body>
 	<fmt:formatDate value="${pedido.fechaIngreso}" pattern="dd/MM/yyyy" var="fechaIngreso"/>
     <fmt:formatDate value="${pedido.fechaDespacho}" pattern="dd/MM/yyyy" var="fechaDespacho"/>
 	<c:set var = "queryString" scope = "session" value = "&vendedor.id=${pedido.vendedor.id}&cocinero.id=${pedido.cocinero.id}&fechaIngreso=${fechaIngreso}&fechaDespacho=${fechaDespacho}"/>

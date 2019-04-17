@@ -38,7 +38,7 @@
                                     <td><c:out value = "${itemIngrediente.cantidad}"/></td>
                                     <td>
                                         <a href = "${urlEditar}/<c:out value = "${itemIngrediente.id}"/>/editar"class="waves-effect waves-light btn-small red lighten-1">
-                                        	<i class="material-icons">edit</i><span class = "hide-on-small-only vertical-align">Editar</span>
+                                        	<i class="material-icons">edit</i><span class = "hide-on-small-only vertical-align">&nbsp;Editar</span>
                                        	</a>
                                     </td>
                                 </tr>

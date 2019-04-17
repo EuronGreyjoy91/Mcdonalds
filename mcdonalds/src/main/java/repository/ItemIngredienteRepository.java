@@ -14,10 +14,5 @@ import model.ItemIngrediente;
 @Repository
 @Transactional
 public interface ItemIngredienteRepository extends JpaRepository<ItemIngrediente, Integer>, JpaSpecificationExecutor<ItemIngrediente>{
-
-//	@Query("SELECT ii FROM ItemIngrediente ii WHERE ii.item.id = :item ORDER BY ii.id ASC")
-//	List<ItemIngrediente> findByItem(@Param("item") Integer item);
-	
 	List<ItemIngrediente> findByItem(Item item, Pageable pageable);
-
 }

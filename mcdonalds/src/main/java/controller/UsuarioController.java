@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Usuario;
@@ -84,6 +85,11 @@ public class UsuarioController{
 		usuarioService.save(usuario);
 		attributes.addFlashAttribute("response", "Usuario guardado con exito");
 		return "redirect:/usuarios/listar/0";
+	}
+	
+	@GetMapping(value = {"/validar", "/editar/validar"})
+	public @ResponseBody Boolean validarUsuario(@RequestParam String usuario){
+		return usuarioService.obtenerUsuario(usuario) == null;
 	}
 	
 	@GetMapping(value = "/editar/{id}")

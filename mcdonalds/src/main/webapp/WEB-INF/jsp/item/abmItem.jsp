@@ -13,7 +13,6 @@
     var _alert = "<c:out value = '${response}'/>";
 </script>
 <script src = "${urlResources}/js/abmItem.js"></script>
-<body>
 	<c:set var = "queryString" scope = "session" value = "&nombre.id=${item.nombre}"/>
     <div style = "margin-left: 20px; margin-right: 20px">
         <h3>Items <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>

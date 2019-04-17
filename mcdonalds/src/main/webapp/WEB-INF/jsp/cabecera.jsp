@@ -24,23 +24,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>McDonalds - Sistema de Gesti&oacute;n</title>
         <link href="${urlResources}/img/favicon.ico" rel="icon" type="image/x-icon" />
-        
-        <!-- AJUSTAR ESTO -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/picker.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/picker.date.js"></script>
+        <link rel="stylesheet" href="${urlResources}/css/materialize.min.css">
         <link rel="stylesheet" href="${urlResources}/css/jquery-ui.theme.min.css">
         <link rel="stylesheet" href="${urlResources}/css/estilos.css">
+        <link rel="stylesheet" href="${urlResources}/css/materialize.icons.css">
+        <link rel="stylesheet" href="${urlResources}/css/pickadate.css">
+        <link rel="stylesheet" href="${urlResources}/css/pickadate.date.css">
+        <script src="${urlResources}/js/jquery.js"></script>
+        <script src="${urlResources}/js/materialize.min.js"></script>
+        <script src="${urlResources}/js/picker.js"></script>
+		<script src="${urlResources}/js/picker.date.js"></script>
         <script src="${urlResources}/js/jquery-ui.min.js"></script>
         <script src="${urlResources}/js/jquery.validate.min.js"></script>
         <script src="${urlResources}/js/scripts.js"></script>
         <script src="${urlResources}/js/validate-form.js"></script>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/compressed/themes/default.css" rel="stylesheet" />
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.5.6/compressed/themes/default.date.css" rel="stylesheet" />
     </head>
     <body>
 	    <ul id="dropdown1" class="dropdown-content">
