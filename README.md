@@ -1,5 +1,5 @@
 *Version 1.0 del proyecto*
 
-** - Tecnologias utilizadas:**
+**TECNOLOGIAS UTILIZADAS:**
 *  Spring MVC
 *  Hibernate
