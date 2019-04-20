@@ -14,5 +14,5 @@ public interface IPedidoService {
 	List<Pedido> obtenerPedidos(Specification<Pedido> pedidoSpecification, Pageable pageable);
 	Long contarPedidos(Specification<Pedido> pedidoSpecification);
 	void despacharPedido(Usuario cocinero, Pedido pedido);
-	void save(String items, BigDecimal monto);
+	void save(String items, BigDecimal monto, Usuario vendedor);
 }

@@ -19,7 +19,6 @@ import model.Pedido;
 import model.Usuario;
 import repository.ItemRepository;
 import repository.PedidoRepository;
-import repository.UsuarioRepository;
 
 @Service
 public class IPedidoServiceImpl implements IPedidoService{
@@ -30,20 +29,17 @@ public class IPedidoServiceImpl implements IPedidoService{
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
-	@Autowired 
-	private UsuarioRepository usuarioRepository;	
-	
 	@Override
 	public List<Pedido> obtenerPedidos(Specification<Pedido> pedidoSpecification, Pageable pageable) {
 		return pedidoRepository.findAll(pedidoSpecification, pageable).getContent();
 	}
 
 	@Override
-	public void save(String items, BigDecimal monto) {
+	public void save(String items, BigDecimal monto, Usuario vendedor) {
 		Pedido pedido = new Pedido();
 		pedido.setFechaIngreso(new Date());
 		pedido.setMonto(monto);
-		pedido.setVendedor(usuarioRepository.findById(2).get());
+		pedido.setVendedor(vendedor);
 		
 		ItemPedidoHelper[] itemsPedido = new Gson().fromJson(items, ItemPedidoHelper[].class);
 		

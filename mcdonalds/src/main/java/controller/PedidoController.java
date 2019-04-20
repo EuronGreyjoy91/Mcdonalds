@@ -104,8 +104,9 @@ public class PedidoController{
 	}
 	
 	@PostMapping(value = "/guardar")
-	public String guardarPedido(String itemsPedido, BigDecimal montoPedido, RedirectAttributes attributes) {
-		pedidoService.save(itemsPedido, montoPedido);
+	public String guardarPedido(String itemsPedido, BigDecimal montoPedido, RedirectAttributes attributes, Authentication authentication) {
+		Usuario vendedor = usuarioService.obtenerUsuario(authentication.getName());
+		pedidoService.save(itemsPedido, montoPedido, vendedor);
 		attributes.addFlashAttribute("response", "Pedido guardado con exito");
 		return "redirect:/pedidos/listar/0";
 	}
