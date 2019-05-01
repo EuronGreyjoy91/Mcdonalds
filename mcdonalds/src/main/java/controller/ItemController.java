@@ -62,8 +62,26 @@ public class ItemController{
     
     @PostMapping(value = "/guardar")
     public String guardarItem(@ModelAttribute Item item, BindingResult results, RedirectAttributes attributes) {
+    	
+    	if(item.getId() == null)
+    		item.setActivo(1);
+    	
     	itemService.save(item);
     	attributes.addFlashAttribute("response", "Item guardado con exito");
     	return "redirect:/items/listar/0";
     }
+    
+    @GetMapping(value = "/desactivar/{id}")
+	public String desactivarItem(@PathVariable Integer id, RedirectAttributes attributes) {
+    	itemService.cambiarEstadoItem(id, 0);
+		attributes.addFlashAttribute("response", "Item desactivado con exito");
+		return "redirect:/items/listar/0";
+	}
+	
+	@GetMapping(value = "/activar/{id}")
+	public String activarItem(@PathVariable Integer id, RedirectAttributes attributes) {
+		itemService.cambiarEstadoItem(id, 1);
+		attributes.addFlashAttribute("response", "Item activado con exito");
+		return "redirect:/items/listar/0";
+	}
 }

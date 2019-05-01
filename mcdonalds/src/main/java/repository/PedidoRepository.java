@@ -10,5 +10,4 @@ import model.Pedido;
 @Repository
 @Transactional
 public interface PedidoRepository extends JpaRepository<Pedido, Integer>, JpaSpecificationExecutor<Pedido>{
-
 }

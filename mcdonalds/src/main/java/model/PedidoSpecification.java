@@ -28,17 +28,18 @@ public class PedidoSpecification implements Specification<Pedido>{
 		Calendar end;
 		Predicate startPredicate;
 		Predicate endPredicate;
+		Join<Pedido, Usuario> join;
 		
 	 	List<Predicate> predicates = new ArrayList<>();
 	 	
         if(criteria.getCocinero() != null && criteria.getCocinero().getId() != null){
-            Join<Pedido, Usuario> cocinero = root.join("cocinero");
-            predicates.add(cb.equal(cocinero.get("id"), criteria.getCocinero().getId()));
+            join = root.join("cocinero");
+            predicates.add(cb.equal(join.get("id"), criteria.getCocinero().getId()));
         }
         
         if(criteria.getVendedor() != null && criteria.getVendedor().getId() != null){
-            Join<Pedido, Usuario> vendedor = root.join("vendedor");
-            predicates.add(cb.equal(vendedor.get("id"), criteria.getVendedor().getId()));
+        	join = root.join("vendedor");
+            predicates.add(cb.equal(join.get("id"), criteria.getVendedor().getId()));
         }
         
         if(criteria.getFechaIngreso() != null){

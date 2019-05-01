@@ -49,6 +49,13 @@
 	                        <label for="password">Contrase&ntilde;a</label>
 	                    </div>
 	                </div>
+	                
+	                <div class="row">
+	                    <div class="input-field col s12 l6">
+	                        <input id="repetir-contrasenia" name = "repetir-contrasenia" type="password" class="validate" required = "required" equalTo = "#contrasenia"/>
+	                        <label for="repetir-contrasenia">Repetir contrase&ntilde;a</label>
+	                    </div>
+	                </div>
                 </c:if>
                 <div class = "row">
                     <div class="input-field col s12 l6">

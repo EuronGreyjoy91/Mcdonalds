@@ -79,6 +79,7 @@ public class UsuarioController{
 			String nuevaPassword = passwordEncoder.encode(passwordTextoPlano);
 			
 			usuario.setContrasenia(nuevaPassword);
+			usuario.setActivo(1);
 		}else
 			usuario.setContrasenia(usuarioService.obtenerUsuario(usuario.getId()).getContrasenia());
 		
@@ -106,4 +107,17 @@ public class UsuarioController{
 		return "redirect:/usuarios/listar/0";
 	}
 	
+	@GetMapping(value = "/desactivar/{id}")
+	public String desactivarUsuario(@PathVariable Integer id, RedirectAttributes attributes) {
+		usuarioService.cambiarEstadoUsuario(id, 0);
+		attributes.addFlashAttribute("response", "Usuario desactivado con exito");
+		return "redirect:/usuarios/listar/0";
+	}
+	
+	@GetMapping(value = "/activar/{id}")
+	public String activarUsuario(@PathVariable Integer id, RedirectAttributes attributes) {
+		usuarioService.cambiarEstadoUsuario(id, 1);
+		attributes.addFlashAttribute("response", "Usuario activado con exito");
+		return "redirect:/usuarios/listar/0";
+	}
 }

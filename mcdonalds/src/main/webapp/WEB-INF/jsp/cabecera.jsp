@@ -15,6 +15,7 @@
 <spring:url value="/ingredientes/listar" var = "urlListarIngredientes"></spring:url>
 <spring:url value="/items/listar" var = "urlListarItems"></spring:url>
 <spring:url value="/pedidos/listar" var = "urlListarPedidos"></spring:url>
+<sec:authentication var="principal" property="principal" />
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

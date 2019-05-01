@@ -27,6 +27,7 @@ public class ItemIngrediente {
     private Ingrediente ingrediente;
     private String cantidad;
     private Item item;
+    private Integer activo;
 
     @Id
     @Column(name = "id")
@@ -67,4 +68,13 @@ public class ItemIngrediente {
     public void setItem(Item item) {
         this.item = item;
     }
+    
+    @Column(name = "activo")
+	public Integer getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Integer activo) {
+		this.activo = activo;
+	}
 }

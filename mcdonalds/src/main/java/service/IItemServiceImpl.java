@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,13 @@ public class IItemServiceImpl implements IItemService{
 
 	@Override
 	public List<Item> obtenerTodosLosItems() {
-		return itemRepository.findAll(Sort.by("id").ascending());
+		return itemRepository.findByActivoOrderByNombreAsc(1);
+	}
+	
+	@Override
+	public void cambiarEstadoItem(Integer id, Integer estado) {
+		Item item = itemRepository.findById(id).get();
+		item.setActivo(estado);
+		itemRepository.save(item);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +38,13 @@ public class IIngredienteServiceImpl implements IIngredienteService{
 
 	@Override
 	public List<Ingrediente> obtenerTodosLosIngredientes() {
-		return ingredienteRepository.findAll(Sort.by("id").ascending());
+		return ingredienteRepository.findByActivoOrderByNombreAsc(1);
+	}
+	
+	@Override
+	public void cambiarEstadoIngrediente(Integer id, Integer estado) {
+		Ingrediente ingrediente = ingredienteRepository.findById(id).get();
+		ingrediente.setActivo(estado);
+		ingredienteRepository.save(ingrediente);
 	}
 }

@@ -24,10 +24,11 @@ public class UsuarioSpecification implements Specification<Usuario>{
 	public Predicate toPredicate(Root<Usuario> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 		
 	 	List<Predicate> predicates = new ArrayList<>();
+	 	Join<Usuario, UsuarioTipo> join;
 	 	
         if(criteria.getUsuarioTipo() != null && criteria.getUsuarioTipo().getId() != null){
-            Join<Usuario, UsuarioTipo> usuarioTipo = root.join("usuarioTipo");
-            predicates.add(cb.equal(usuarioTipo.get("id"), criteria.getUsuarioTipo().getId()));
+            join = root.join("usuarioTipo");
+            predicates.add(cb.equal(join.get("id"), criteria.getUsuarioTipo().getId()));
         }
         
         if(criteria.getNombre() != null && !criteria.getNombre().equals(""))
@@ -38,6 +39,9 @@ public class UsuarioSpecification implements Specification<Usuario>{
         
         if(criteria.getDocumento() != null && !criteria.getDocumento().equals(""))
         	predicates.add(cb.like(root.get("documento"), "%" + criteria.getDocumento() + "%"));
+        
+        if(criteria.getActivo() != null)
+        	predicates.add(cb.equal(root.get("activo"), criteria.getActivo()));
         
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 	}

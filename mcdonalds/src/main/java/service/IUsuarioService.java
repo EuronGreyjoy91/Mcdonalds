@@ -16,4 +16,5 @@ public interface IUsuarioService {
 	Long contarUsuarios(Specification<Usuario> usuarioSpecification);
 	void save(Usuario usuario);
 	void reasignarUsuario(Integer id);
+	void cambiarEstadoUsuario(Integer id, Integer estado);
 }

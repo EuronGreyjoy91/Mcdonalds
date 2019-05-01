@@ -28,6 +28,7 @@ public class UsuarioTipo{
     
     private Integer id;
     private String nombre;
+    private Integer activo;
 
     @Id
     @Column(name = "id")
@@ -48,4 +49,13 @@ public class UsuarioTipo{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    @Column(name = "activo")
+	public Integer getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Integer activo) {
+		this.activo = activo;
+	}
 }

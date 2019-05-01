@@ -30,6 +30,7 @@ public class Usuario {
     private String usuario;
     private String contrasenia;
     private UsuarioTipo usuarioTipo;
+    private Integer activo;
 
     @Id
     @Column(name = "id")
@@ -96,4 +97,13 @@ public class Usuario {
     public void setUsuarioTipo(UsuarioTipo usuarioTipo) {
         this.usuarioTipo = usuarioTipo;
     }
+    
+    @Column(name = "activo")
+	public Integer getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Integer activo) {
+		this.activo = activo;
+	}
 }

@@ -13,4 +13,5 @@ public interface IIngredienteService {
 	Ingrediente obtenerIngrediente(Integer id);
 	Long contarIngredientes(Specification<Ingrediente> ingredienteSpecification);
 	void save(Ingrediente ingrediente);
+	void cambiarEstadoIngrediente(Integer id, Integer estado);
 }

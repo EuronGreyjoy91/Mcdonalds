@@ -63,8 +63,26 @@ public class IngredienteController{
 	@PostMapping(value = "/guardar")
 	public String guardarIngrediente(@ModelAttribute Ingrediente ingrediente, BindingResult results,
 			RedirectAttributes attributes) {
+		
+		if(ingrediente.getId() == null)
+			ingrediente.setActivo(1);
+			
 		ingredienteService.save(ingrediente);
 		attributes.addFlashAttribute("response", "Ingrediente guardado con exito");
+		return "redirect:/ingredientes/listar/0";
+	}
+	
+	@GetMapping(value = "/desactivar/{id}")
+	public String desactivarIngrediente(@PathVariable Integer id, RedirectAttributes attributes) {
+		ingredienteService.cambiarEstadoIngrediente(id, 0);
+		attributes.addFlashAttribute("response", "Ingrediente desactivado con exito");
+		return "redirect:/ingredientes/listar/0";
+	}
+	
+	@GetMapping(value = "/activar/{id}")
+	public String activarIngrediente(@PathVariable Integer id, RedirectAttributes attributes) {
+		ingredienteService.cambiarEstadoIngrediente(id, 1);
+		attributes.addFlashAttribute("response", "Ingrediente activado con exito");
 		return "redirect:/ingredientes/listar/0";
 	}
 }

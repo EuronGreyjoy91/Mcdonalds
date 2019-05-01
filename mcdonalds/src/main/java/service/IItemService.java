@@ -13,4 +13,5 @@ public interface IItemService {
 	Item obtenerItem(Integer id);
 	Long contarItems(Specification<Item> itemSpecification);
 	void save(Item item);
+	void cambiarEstadoItem(Integer id, Integer estado);
 }

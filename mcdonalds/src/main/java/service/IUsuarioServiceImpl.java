@@ -69,4 +69,11 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 	public Long contarUsuarios(Specification<Usuario> usuarioSpecification) {
 		return usuarioRepository.count(usuarioSpecification);
 	}
+
+	@Override
+	public void cambiarEstadoUsuario(Integer id, Integer estado) {
+		Usuario usuario = usuarioRepository.findById(id).get();
+		usuario.setActivo(estado);
+		usuarioRepository.save(usuario);
+	}
 }

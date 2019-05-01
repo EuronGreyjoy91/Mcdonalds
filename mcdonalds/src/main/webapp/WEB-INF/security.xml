@@ -27,7 +27,7 @@
       		users-by-username-query = "SELECT usuario as username, contrasenia as password, 1 FROM usuario WHERE usuario = ?"
       		authorities-by-username-query = "SELECT u.usuario, UPPER(ut.nombre) FROM usuario u
       										INNER JOIN usuario_tipo ut ON u.id_usuario_tipo = ut.id
-      										WHERE u.usuario = ?"
+      										WHERE u.usuario = ? AND u.activo = 1"
       	/>
       </authentication-provider>
    </authentication-manager>

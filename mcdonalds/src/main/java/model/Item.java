@@ -26,6 +26,7 @@ public class Item {
     private Integer id;
     private String nombre;
     private BigDecimal monto;
+    private Integer activo;
 
     @Id
     @Column(name = "id")
@@ -55,4 +56,13 @@ public class Item {
     public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
+    
+    @Column(name = "activo")
+	public Integer getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Integer activo) {
+		this.activo = activo;
+	}
 }
