@@ -38,7 +38,7 @@
          	   </div>
                <div class="input-field col s12 l3">
 					<form:select path="usuarioTipo.id">
-						<form:option value="">Seleccione una opci&oacute;n</form:option>
+						<form:option value="">Todos</form:option>
 						<form:options items="${usuarioTipos}" itemValue = "id" itemLabel = "nombre"></form:options>
 					</form:select>
                    <label>Tipo de usuario</label>

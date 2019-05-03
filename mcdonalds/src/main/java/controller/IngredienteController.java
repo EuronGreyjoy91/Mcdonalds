@@ -66,6 +66,8 @@ public class IngredienteController{
 		
 		if(ingrediente.getId() == null)
 			ingrediente.setActivo(1);
+		else
+			ingrediente.setActivo(ingredienteService.obtenerIngrediente(ingrediente.getId()).getActivo());
 			
 		ingredienteService.save(ingrediente);
 		attributes.addFlashAttribute("response", "Ingrediente guardado con exito");

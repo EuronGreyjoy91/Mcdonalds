@@ -34,7 +34,7 @@
 	           <div class="row">
 	              	<div class="input-field col s12 l3 offset-l3">
 						<form:select path="vendedor.id">
-							<form:option value="">Seleccione una opci&oacute;n</form:option>
+							<form:option value="">Todos</form:option>
 							<form:options items="${vendedores}" itemValue = "id" itemLabel = "nombre"></form:options>
 						</form:select>
 	                   <label>Vendedor</label>
@@ -42,7 +42,7 @@
 	
 	               	<div class="input-field col s12 l3">
 						<form:select path="cocinero.id">
-							<form:option value="">Seleccione una opci&oacute;n</form:option>
+							<form:option value="">Todos</form:option>
 							<form:options items="${cocineros}" itemValue = "id" itemLabel = "nombre"></form:options>
 						</form:select>
 	                   <label>Cocinero</label>

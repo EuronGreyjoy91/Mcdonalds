@@ -74,14 +74,17 @@ public class UsuarioController{
 	@PostMapping(value = "/guardar")
 	public String guardarUsuario(@ModelAttribute Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		
-		if(usuario.getContrasenia() != null && !usuario.getContrasenia().equals("")){
+		if(usuario.getId() == null){
 			String passwordTextoPlano = usuario.getContrasenia();
 			String nuevaPassword = passwordEncoder.encode(passwordTextoPlano);
 			
 			usuario.setContrasenia(nuevaPassword);
 			usuario.setActivo(1);
-		}else
-			usuario.setContrasenia(usuarioService.obtenerUsuario(usuario.getId()).getContrasenia());
+		}else{
+			Usuario user = usuarioService.obtenerUsuario(usuario.getId());
+			usuario.setContrasenia(user.getContrasenia());
+			usuario.setActivo(user.getActivo());
+		}
 		
 		usuarioService.save(usuario);
 		attributes.addFlashAttribute("response", "Usuario guardado con exito");

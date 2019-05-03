@@ -59,10 +59,6 @@ public class ItemIngredienteController{
 	
 	@PostMapping(value = "/guardar")
 	public String guardarItemIngrediente(@ModelAttribute ItemIngrediente itemIngrediente, RedirectAttributes attributes) {
-		
-		if(itemIngrediente.getId() == null)
-			itemIngrediente.setActivo(1);
-		
 		itemIngredienteService.save(itemIngrediente);
 		attributes.addFlashAttribute("item", itemService.obtenerItem(itemIngrediente.getItem().getId()));
 		attributes.addFlashAttribute("response", "Item ingrediente guardado con exito");

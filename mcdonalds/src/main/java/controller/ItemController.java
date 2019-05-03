@@ -65,6 +65,8 @@ public class ItemController{
     	
     	if(item.getId() == null)
     		item.setActivo(1);
+		else
+			item.setActivo(itemService.obtenerItem(item.getId()).getActivo());
     	
     	itemService.save(item);
     	attributes.addFlashAttribute("response", "Item guardado con exito");
