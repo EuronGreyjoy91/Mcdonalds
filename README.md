@@ -27,10 +27,6 @@ Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones
 
 ## Autores ✒️
 
-* **Andrés Villanueva** - *Trabajo Inicial* - [villanuevand](https://github.com/villanuevand)
-* **Fulanito Detal** - *Documentación* - [fulanitodetal](#fulanito-de-tal)
-
-También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
+* **Federico Ignacio Ibarra Berardi** - [villanuevand](https://gitlab.com/EuronGreyjoy)
 
 ---
-Creado por [Federico Ibarra Berardi](https://gitlab.com/EuronGreyjoy 
