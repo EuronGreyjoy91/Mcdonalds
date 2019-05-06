@@ -33,4 +33,4 @@ Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones
 También puedes mirar la lista de todos los [contribuyentes](https://github.com/your/project/contributors) quíenes han participado en este proyecto. 
 
 ---
-Creado por [VFederico Ibarra Berardi(https://gitlab.com/EuronGreyjoy 
+Creado por [Federico Ibarra Berardi](https://gitlab.com/EuronGreyjoy 
