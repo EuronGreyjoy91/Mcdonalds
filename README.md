@@ -3,9 +3,9 @@
 Proyecto creado para la Universidad como prueba de integración de diversos frameworks de Java.
 En el sistema se tienen tres tipos de usuario (Administrador, Vendedor y Cocinero). Cada uno realiza una serie de acciones:
 
-* Administrador: Da de alta usuarios, ingredientes, items, puede invertir roles de usuario, etc. Tiene el control total del sistema.
-* Vendedor: Ve el listado de ventas y puede crear una nueva.
-* Cocinero: Despacha los pedidos creados por los vendedores.
+* **Administrador**: Da de alta usuarios, ingredientes, items, puede invertir roles de usuario, etc. Tiene el control total del sistema.
+* **Vendedor**: Ve el listado de ventas y puede crear una nueva.
+* **Cocinero**: Despacha los pedidos creados por los vendedores.
 
 ## Construido con 🛠️
 
