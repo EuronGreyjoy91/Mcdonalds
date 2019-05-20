@@ -46,8 +46,11 @@
                 <div class = "row">
                     <h4 id = "total-pedido">Total pedido: $0.00</h4>
                 </div>
-                <button class="btn waves-effect waves-light btn-yellow" type="button" name="action" id = "guardar-pedido">Guardar
-                    <i class="material-icons right">add</i>
+                <button class="btn waves-effect waves-light red" type="button" name="action" onclick="window.history.go(-1)">Cancelar
+                    <i class="material-icons right">cancel</i>
+                </button>
+                <button class="btn waves-effect waves-light green" type="button" name="action" id = "guardar-pedido">Guardar
+                    <i class="material-icons right">check</i>
                 </button>
             </form>
         </div>

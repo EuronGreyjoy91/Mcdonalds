@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.ItemIngrediente;
+import model.Utilities;
 import service.IIngredienteService;
 import service.IItemIngredienteService;
 import service.IItemService;
@@ -35,9 +36,9 @@ public class ItemIngredienteController{
 	@GetMapping(value = "/item/{id}/listar/{pagina}")
 	public String listarItemIngredientes(@PathVariable Integer id, Model model, @PathVariable Integer pagina) {
 		model.addAttribute("item", itemService.obtenerItem(id));
-		model.addAttribute("itemIngredientes", itemIngredienteService.obtenerItemIngredientes(itemService.obtenerItem(id), pagina, 10));
+		model.addAttribute("itemIngredientes", itemIngredienteService.obtenerItemIngredientes(itemService.obtenerItem(id), pagina, Utilities.REGISTROS_POR_PAGINA));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((itemIngredienteService.contarItemIngredientes() - 1) / 10));
+		model.addAttribute("paginas", ((itemIngredienteService.contarItemIngredientes() - 1) / Utilities.REGISTROS_POR_PAGINA));
 		return "itemIngrediente/abmItemIngrediente";
 	}
 	

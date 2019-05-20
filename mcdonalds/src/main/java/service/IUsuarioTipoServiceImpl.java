@@ -1,13 +1,10 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import antlr.StringUtils;
 import model.UsuarioTipo;
 import repository.UsuarioTipoRepository;
 
@@ -19,7 +16,7 @@ public class IUsuarioTipoServiceImpl implements IUsuarioTipoService{
 
 	@Override
 	public List<UsuarioTipo> obtenerUsuarioTipos() {
-		return usuarioTipoRepository.findAll(Sort.by("id").ascending());
+		return usuarioTipoRepository.findByActivoOrderByIdAsc(1);
 	}
 
 	@Override

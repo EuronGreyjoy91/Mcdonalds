@@ -2,12 +2,16 @@ package service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 import model.Ingrediente;
 
 public interface IIngredienteService {
-	List<Ingrediente> obtenerIngredientes(Integer pagina, Integer cantidad, String nombre);
+	List<Ingrediente> obtenerIngredientes(Specification<Ingrediente> itemSpecification, Pageable pageable);
 	List<Ingrediente> obtenerTodosLosIngredientes();
 	Ingrediente obtenerIngrediente(Integer id);
-	Long contarIngredientes(String nombre);
+	Long contarIngredientes(Specification<Ingrediente> ingredienteSpecification);
 	void save(Ingrediente ingrediente);
+	void cambiarEstadoIngrediente(Integer id, Integer estado);
 }

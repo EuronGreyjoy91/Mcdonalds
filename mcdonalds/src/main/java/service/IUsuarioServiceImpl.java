@@ -3,9 +3,8 @@ package service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import model.Usuario;
@@ -57,25 +56,24 @@ public class IUsuarioServiceImpl implements IUsuarioService{
 	}
 
 	@Override
-	public List<Usuario> obtenerUsuarios(Integer pagina, Integer cantidad, String nombre, String apellido, String documento,
-			Integer usuarioTipo) {
-		Pageable pageable = PageRequest.of(pagina, cantidad, Sort.by("id").descending());
-		
-		if(usuarioTipo != null)
-			return usuarioRepository.obtenerUsuarios(nombre, apellido, documento, usuarioTipo, pageable);
-		else
-			return usuarioRepository.obtenerUsuarios(nombre, apellido, documento, pageable);
-//		return usuarioRepository.findAll(PageRequest.of(pagina, cantidad, Sort.by("id").descending())).getContent();
+	public List<Usuario> obtenerUsuarios(Specification<Usuario> usuarioSpecification, Pageable pageable) {
+		return usuarioRepository.findAll(usuarioSpecification, pageable).getContent();
+	}
+	
+	@Override
+	public List<Usuario> obtenerUsuarios(Specification<Usuario> usuarioSpecification) {
+		return usuarioRepository.findAll(usuarioSpecification);
 	}
 
 	@Override
-	public Long contarUsuarios(String nombre, String apellido, String documento, Integer usuarioTipo) {
-//		return usuarioRepository.count();
-		
-		if(usuarioTipo != null)
-			return usuarioRepository.contarUsuarios(nombre, apellido, documento, usuarioTipo);
-		else
-			return usuarioRepository.contarUsuarios(nombre, apellido, documento);
+	public Long contarUsuarios(Specification<Usuario> usuarioSpecification) {
+		return usuarioRepository.count(usuarioSpecification);
 	}
 
+	@Override
+	public void cambiarEstadoUsuario(Integer id, Integer estado) {
+		Usuario usuario = usuarioRepository.findById(id).get();
+		usuario.setActivo(estado);
+		usuarioRepository.save(usuario);
+	}
 }

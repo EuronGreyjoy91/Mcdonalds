@@ -6,6 +6,10 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Item;
+import model.ItemSpecification;
+import model.Utilities;
 import service.IItemService;
 
 /**
@@ -32,10 +38,14 @@ public class ItemController{
 	private IItemService itemService;
 
     @GetMapping(value = "/listar/{pagina}")
-    public String listarItems(Model model, @PathVariable Integer pagina) {
-    	model.addAttribute("items", itemService.obtenerItems(pagina, 10));
+    public String listarItems(@ModelAttribute Item item, Model model, @PathVariable Integer pagina) {
+    	
+    	Specification<Item> spec = new ItemSpecification(item);
+		Pageable pageable = PageRequest.of(pagina, Utilities.REGISTROS_POR_PAGINA, Sort.by("id").descending());
+    	
+    	model.addAttribute("items", itemService.obtenerItems(spec, pageable));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((itemService.contarItems() - 1) / 10));
+		model.addAttribute("paginas", ((itemService.contarItems(spec) - 1) / Utilities.REGISTROS_POR_PAGINA));
     	return "item/abmItem";
     }
     	
@@ -52,8 +62,28 @@ public class ItemController{
     
     @PostMapping(value = "/guardar")
     public String guardarItem(@ModelAttribute Item item, BindingResult results, RedirectAttributes attributes) {
+    	
+    	if(item.getId() == null)
+    		item.setActivo(1);
+		else
+			item.setActivo(itemService.obtenerItem(item.getId()).getActivo());
+    	
     	itemService.save(item);
     	attributes.addFlashAttribute("response", "Item guardado con exito");
     	return "redirect:/items/listar/0";
     }
+    
+    @GetMapping(value = "/desactivar/{id}")
+	public String desactivarItem(@PathVariable Integer id, RedirectAttributes attributes) {
+    	itemService.cambiarEstadoItem(id, 0);
+		attributes.addFlashAttribute("response", "Item desactivado con exito");
+		return "redirect:/items/listar/0";
+	}
+	
+	@GetMapping(value = "/activar/{id}")
+	public String activarItem(@PathVariable Integer id, RedirectAttributes attributes) {
+		itemService.cambiarEstadoItem(id, 1);
+		attributes.addFlashAttribute("response", "Item activado con exito");
+		return "redirect:/items/listar/0";
+	}
 }

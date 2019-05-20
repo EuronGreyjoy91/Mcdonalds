@@ -6,6 +6,10 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +20,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import model.Usuario;
+import model.UsuarioSpecification;
+import model.Utilities;
 import service.IUsuarioService;
 import service.IUsuarioTipoService;
 
@@ -40,22 +47,20 @@ public class UsuarioController{
 	private IUsuarioTipoService usuarioTipoService;
 	
 	@GetMapping(value = "/listar/{pagina}")
-	public String listarUsuarios(Model model, @PathVariable Integer pagina,
+	public String listarUsuarios(@ModelAttribute Usuario usuario, BindingResult bindingResult,
+			Model model, @PathVariable Integer pagina,
 			@RequestParam (required = false, defaultValue = "") String nombre, 
 			@RequestParam (required = false, defaultValue = "") String apellido,
 			@RequestParam (required = false, defaultValue = "") String documento,
 			@RequestParam (required = false) Integer usuarioTipo) {
 		
-		model.addAttribute("usuarios", usuarioService.obtenerUsuarios(pagina, 10, nombre, apellido, documento, usuarioTipo));
+		Specification<Usuario> spec = new UsuarioSpecification(usuario);
+		Pageable pageable = PageRequest.of(pagina, Utilities.REGISTROS_POR_PAGINA, Sort.by("id").descending());
+		
+		model.addAttribute("usuarios", usuarioService.obtenerUsuarios(spec, pageable));
 		model.addAttribute("pagina", pagina);
-		model.addAttribute("paginas", ((usuarioService.contarUsuarios(nombre, apellido, documento, usuarioTipo) - 1) / 10));
+		model.addAttribute("paginas", ((usuarioService.contarUsuarios(spec) - 1) / Utilities.REGISTROS_POR_PAGINA));
 		model.addAttribute("usuarioTipos", usuarioTipoService.obtenerUsuarioTipos());
-
-		//Filtros
-		model.addAttribute("nombre", nombre);
-		model.addAttribute("apellido", apellido);
-		model.addAttribute("documento", documento);
-		model.addAttribute("usuarioTipoSeleccionado", usuarioTipo);
 		
 		return "usuario/abmUsuario";
 	}
@@ -69,17 +74,26 @@ public class UsuarioController{
 	@PostMapping(value = "/guardar")
 	public String guardarUsuario(@ModelAttribute Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		
-		if(usuario.getContrasenia() != null && !usuario.getContrasenia().equals("")){
+		if(usuario.getId() == null){
 			String passwordTextoPlano = usuario.getContrasenia();
 			String nuevaPassword = passwordEncoder.encode(passwordTextoPlano);
 			
 			usuario.setContrasenia(nuevaPassword);
-		}else
-			usuario.setContrasenia(usuarioService.obtenerUsuario(usuario.getId()).getContrasenia());
+			usuario.setActivo(1);
+		}else{
+			Usuario user = usuarioService.obtenerUsuario(usuario.getId());
+			usuario.setContrasenia(user.getContrasenia());
+			usuario.setActivo(user.getActivo());
+		}
 		
 		usuarioService.save(usuario);
 		attributes.addFlashAttribute("response", "Usuario guardado con exito");
 		return "redirect:/usuarios/listar/0";
+	}
+	
+	@GetMapping(value = {"/validar", "/editar/validar"})
+	public @ResponseBody Boolean validarUsuario(@RequestParam String usuario){
+		return usuarioService.obtenerUsuario(usuario) == null;
 	}
 	
 	@GetMapping(value = "/editar/{id}")
@@ -96,4 +110,17 @@ public class UsuarioController{
 		return "redirect:/usuarios/listar/0";
 	}
 	
+	@GetMapping(value = "/desactivar/{id}")
+	public String desactivarUsuario(@PathVariable Integer id, RedirectAttributes attributes) {
+		usuarioService.cambiarEstadoUsuario(id, 0);
+		attributes.addFlashAttribute("response", "Usuario desactivado con exito");
+		return "redirect:/usuarios/listar/0";
+	}
+	
+	@GetMapping(value = "/activar/{id}")
+	public String activarUsuario(@PathVariable Integer id, RedirectAttributes attributes) {
+		usuarioService.cambiarEstadoUsuario(id, 1);
+		attributes.addFlashAttribute("response", "Usuario activado con exito");
+		return "redirect:/usuarios/listar/0";
+	}
 }

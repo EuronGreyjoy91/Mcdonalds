@@ -7,6 +7,8 @@
 <%@ include file="../cabecera.jsp" %>
 <spring:url value="/usuarios/nuevo" var = "urlNuevo"></spring:url>
 <spring:url value="/usuarios/editar" var = "urlEditar"></spring:url>
+<spring:url value="/usuarios/desactivar" var = "urlDesactivar"></spring:url>
+<spring:url value="/usuarios/activar" var = "urlActivar"></spring:url>
 <spring:url value="/usuarios/listar" var = "urlListar"></spring:url>
 <spring:url value="/usuarios/reasignar" var = "urlReasignar"></spring:url>
 <script>
@@ -14,36 +16,43 @@
     var _urlReasignar = "<c:out value = '${urlReasignar}'/>";
 </script>
 <script src = "${urlResources}/js/abmUsuario.js"></script>
-<body>
-	<c:set var = "queryString" scope = "session" value = "&nombre=${nombre}&apellido=${apellido}&documento=${documento}&usuarioTipo=${usuarioTipoSeleccionado}"/>
+	<c:set var = "queryString" scope = "session" value = "&nombre=${usuario.nombre}&apellido=${usuario.apellido}&documento=${usuario.documento}&usuarioTipo.id=${usuario.usuarioTipo.id}&activo=${usuario.activo}"/>
     <div style = "margin-left: 20px; margin-right: 20px">
-        <h3>Usuarios</h3>
+        <h3>Usuarios <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
         <a href = "${urlNuevo}" class="waves-effect waves-light btn btn-yellow"><i class="material-icons left">add</i>Nuevo</a>
-    	<form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px">
+    	<form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px" modelAttribute="usuario">
            <div class="row">
                <div class="input-field col s12 l3 offset-l3">
-                   <input placeholder="Buscar por nombre" id="nombre" name = "nombre" type="text" class="validate" value = "<c:out value = "${nombre}"/>"/>
-                   <label for="nombre">Nombre</label>
-               </div>
-               <div class="input-field col s12 l3">
-                   <input placeholder="Buscar por apellido" id="apellido" name = "apellido" type="text" class="validate" value = "<c:out value = "${apellido}"/>"/>
-                   <label for="apellido">Apellido</label>
-               </div>
+			   		<form:input placeholder="Nombre" id="nombre" path = "nombre" type="text" class="validate"/>
+                    <label for="nombre">Nombre</label>
+         		</div>
+               	<div class="input-field col s12 l3">
+					<form:input placeholder="Apellido" id="apellido" path = "apellido" type="text" class="validate"/>
+                    <label for="apellido">Apellido</label>
+         		</div>
            </div>
            <div class="row">
+           	   <div class="input-field col s12 l3 offset-l3">
+					<form:input placeholder="Documento" id="documento" path = "documento" type="text" class="validate"/>
+                    <label for="documento">Documento</label>
+         	   </div>
+               <div class="input-field col s12 l3">
+					<form:select path="usuarioTipo.id">
+						<form:option value="">Todos</form:option>
+						<form:options items="${usuarioTipos}" itemValue = "id" itemLabel = "nombre"></form:options>
+					</form:select>
+                   <label>Tipo de usuario</label>
+               	</div>
+			</div>
+			<div class="row">
                <div class="input-field col s12 l3 offset-l3">
-                   <input placeholder="Buscar por documento" id="documento" name = "documento" type="number" class="validate" value = "<c:out value = "${documento}"/>"/>
-                   <label for="documento">Documento</label>
-               </div>
-			   <div class="input-field col s12 l3">
-					<select id = "usuarioTipo" name = "usuarioTipo">
-						<option value="">Seleccione una opci&oacute;n</option>
-						<c:forEach items = "${usuarioTipos}" var = "usuarioTipo">
-							<option value = "${usuarioTipo.id}" <c:if test = "${usuarioTipo.id eq usuarioTipoSeleccionado}"> selected </c:if>><c:out value = "${usuarioTipo.nombre}"></c:out></option>
-						</c:forEach>
-					</select>
-					<label>Tipo de usuario</label>
-				</div>
+					<form:select path="activo">
+						<form:option value="">Todos</form:option>
+						<form:option value="1">Activos</form:option>
+						<form:option value="0">Inactivos</form:option>
+					</form:select>
+                   <label>Estado</label>
+               	</div>
 			</div>
            <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">Buscar
                <i class="material-icons right">search</i>
@@ -57,9 +66,10 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Tipo</th>
+                                <th>Usuario</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
-                                <th>Documento</th> 
+                                <th>Documento</th>
                                 <th>Acciones</th>  
                             </tr>
                         </thead>
@@ -68,14 +78,33 @@
                                 <tr>
                                     <td><c:out value = "${usuario.id}"/></td>
                                     <td><c:out value = "${usuario.usuarioTipo.nombre}"/></td>
+                                    <td><c:out value = "${usuario.usuario}"/></td>
                                     <td><c:out value = "${usuario.nombre}"/></td>
                                     <td><c:out value = "${usuario.apellido}"/></td>
                                     <td><c:out value = "${usuario.documento}"/></td>
                                     <td>
-                                        <a href = "${urlEditar}/<c:out value = "${usuario.id}"/>"class="waves-effect waves-light btn-small red lighten-1"><i class="material-icons left">edit</i>Editar</a>
-                                        <c:if test = "${usuario.usuarioTipo.id ne 1}">
-                                            <a href = "#" data-id = "<c:out value = "${usuario.id}"/>" data-nombre = "<c:out value = "${usuario.nombre}"/>" class="waves-effect waves-light btn-small blue lighten-1 reasignar"><i class="material-icons left">autorenew</i>Reasignar</a>
-                                        </c:if>
+                                    	<c:if test = "${principal.username ne usuario.usuario}">
+	                                    	<c:choose>
+	                                    		<c:when test="${usuario.activo eq 1}">
+	                                    			<a href = "${urlDesactivar}/<c:out value = "${usuario.id}"/>"class="waves-effect waves-light btn-small deep-purple darken-3">
+			                                        	<i class="material-icons">close</i><span class = "hide-on-small-only vertical-align">&nbsp;Desactivar</span>
+			                                        </a>
+	                                    		</c:when>
+	                                    		<c:otherwise>
+	                                    			<a href = "${urlActivar}/<c:out value = "${usuario.id}"/>"class="waves-effect waves-light btn-small teal accent-4">
+			                                        	<i class="material-icons">done</i><span class = "hide-on-small-only vertical-align">&nbsp;Activar</span>
+			                                        </a>
+	                                    		</c:otherwise>
+	                                    	</c:choose>
+	                                        <a href = "${urlEditar}/<c:out value = "${usuario.id}"/>"class="waves-effect waves-light btn-small red lighten-1">
+	                                        	<i class="material-icons">edit</i><span class = "hide-on-small-only vertical-align">&nbsp;Editar</span>
+	                                        </a>
+	                                        <c:if test = "${usuario.usuarioTipo.id ne 1}">
+	                                            <a href = "#" data-id = "<c:out value = "${usuario.id}"/>" data-nombre = "<c:out value = "${usuario.nombre}"/>" class="waves-effect waves-light btn-small blue lighten-1 reasignar">
+	                                            	<i class="material-icons">autorenew</i><span class = "hide-on-small-only vertical-align">&nbsp;Reasignar</span>
+	                                            </a>
+	                                        </c:if>
+                                    	</c:if>
                                     </td>
                                 </tr>
                             </c:forEach>

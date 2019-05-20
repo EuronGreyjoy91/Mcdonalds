@@ -3,8 +3,8 @@ package service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import model.Item;
@@ -17,8 +17,8 @@ public class IItemServiceImpl implements IItemService{
 	private ItemRepository itemRepository;
 	
 	@Override
-	public List<Item> obtenerItems(Integer pagina, Integer cantidad) {
-		return itemRepository.findAll(PageRequest.of(pagina, cantidad, Sort.by("id").ascending())).getContent();
+	public List<Item> obtenerItems(Specification<Item> itemSpecification, Pageable pageable) {
+		return itemRepository.findAll(itemSpecification, pageable).getContent();
 	}
 
 	@Override
@@ -32,12 +32,19 @@ public class IItemServiceImpl implements IItemService{
 	}
 
 	@Override
-	public Long contarItems() {
-		return itemRepository.count();
+	public Long contarItems(Specification<Item> itemSpecification) {
+		return itemRepository.count(itemSpecification);
 	}
 
 	@Override
 	public List<Item> obtenerTodosLosItems() {
-		return itemRepository.findAll(Sort.by("id").ascending());
+		return itemRepository.findByActivoOrderByNombreAsc(1);
+	}
+	
+	@Override
+	public void cambiarEstadoItem(Integer id, Integer estado) {
+		Item item = itemRepository.findById(id).get();
+		item.setActivo(estado);
+		itemRepository.save(item);
 	}
 }

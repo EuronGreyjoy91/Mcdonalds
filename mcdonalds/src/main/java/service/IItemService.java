@@ -2,12 +2,16 @@ package service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 import model.Item;
 
 public interface IItemService {
-	List<Item> obtenerItems(Integer pagina, Integer cantidad);
+	List<Item> obtenerItems(Specification<Item> itemSpecification, Pageable pageable);
 	List<Item> obtenerTodosLosItems();
 	Item obtenerItem(Integer id);
-	Long contarItems();
+	Long contarItems(Specification<Item> itemSpecification);
 	void save(Item item);
+	void cambiarEstadoItem(Integer id, Integer estado);
 }

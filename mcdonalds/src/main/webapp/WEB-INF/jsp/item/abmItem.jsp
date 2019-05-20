@@ -7,15 +7,37 @@
 <%@ include file="../cabecera.jsp" %>
 <spring:url value="/items/nuevo" var = "urlNuevo"></spring:url>
 <spring:url value="/items/editar" var = "urlEditar"></spring:url>
+<spring:url value="/items/desactivar" var = "urlDesactivar"></spring:url>
+<spring:url value="/items/activar" var = "urlActivar"></spring:url>
 <spring:url value="/items/listar" var = "urlListar"></spring:url>
 <spring:url value="/itemIngredientes/item" var = "urlItemIngrediente"></spring:url>
 <script>
     var _alert = "<c:out value = '${response}'/>";
 </script>
 <script src = "${urlResources}/js/abmItem.js"></script>
+	<c:set var = "queryString" scope = "session" value = "&nombre.id=${item.nombre}&activo=${item.activo}"/>
     <div style = "margin-left: 20px; margin-right: 20px">
-        <h3>Items</h3>
+        <h3>Items <button class="waves-effect waves-light red btn-floating right" onclick="window.history.go(-1)"><i class="material-icons">arrow_back</i></button></h3>
         <a href = "${urlNuevo}" class="waves-effect waves-light btn btn-yellow"><i class="material-icons left">add</i>Nuevo</a>
+         <form:form class="col l6 center-align" action = "${urlListar}/0" method = "GET" autocomplete = "off" style = "margin-top: 20px" modelAttribute="item">
+           <div class="row">
+              	<div class="input-field col s12 l3 offset-l3">
+					<form:input placeholder="Nombre" id="nombre" path = "nombre" type="text" class="validate"/>
+                    <label for="nombre">Nombre</label>
+               	</div>
+               	<div class="input-field col s12 l3">
+					<form:select path="activo">
+						<form:option value="">Todos</form:option>
+						<form:option value="1">Activos</form:option>
+						<form:option value="0">Inactivos</form:option>
+					</form:select>
+                   <label>Estado</label>
+               	</div>
+           </div>
+           <button class="btn waves-effect waves-light blue lighten-1" type="submit" name="action">Buscar
+               <i class="material-icons right">search</i>
+           </button>
+       	</form:form>
         <c:choose>
             <c:when test = "${not empty items}">
                 <div class = "row margin-top-30-px">
@@ -36,10 +58,26 @@
                                     <td><c:out value = "${item.nombre}"/></td>
                                     <td>$ <fmt:formatNumber type = "number" minFractionDigits = "2" maxFractionDigits = "2" value = "${item.monto}" /></td>
                                     <td>
-                                        <a href = "${urlItemIngrediente}/<c:out value = "${item.id}"/>/listar/0"class="waves-effect waves-light btn-small green lighten-1"><i class="material-icons left">add</i>Administrar</a>
+                                        <a href = "${urlItemIngrediente}/<c:out value = "${item.id}"/>/listar/0"class="waves-effect waves-light btn-small green lighten-1">
+                                        	<i class="material-icons">add</i><span class = "hide-on-small-only vertical-align">&nbsp;Administrar</span>
+                                       	</a>
                                     </td>
                                     <td>
-                                        <a href = "${urlEditar}/<c:out value = "${item.id}"/>"class="waves-effect waves-light btn-small red lighten-1"><i class="material-icons left">edit</i>Editar</a>
+                                   		<c:choose>
+                                    		<c:when test="${item.activo eq 1}">
+                                    			<a href = "${urlDesactivar}/<c:out value = "${item.id}"/>"class="waves-effect waves-light btn-small deep-purple darken-3">
+		                                        	<i class="material-icons">close</i><span class = "hide-on-small-only vertical-align">&nbsp;Desactivar</span>
+		                                        </a>
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			<a href = "${urlActivar}/<c:out value = "${item.id}"/>"class="waves-effect waves-light btn-small teal accent-4">
+		                                        	<i class="material-icons">done</i><span class = "hide-on-small-only vertical-align">&nbsp;Activar</span>
+		                                        </a>
+                                    		</c:otherwise>
+                                    	</c:choose>
+                                        <a href = "${urlEditar}/<c:out value = "${item.id}"/>"class="waves-effect waves-light btn-small red lighten-1">
+                                        	<i class="material-icons">edit</i><span class = "hide-on-small-only vertical-align">&nbsp;Editar</span>
+                                       	</a>
                                     </td>
                                 </tr>
                             </c:forEach>

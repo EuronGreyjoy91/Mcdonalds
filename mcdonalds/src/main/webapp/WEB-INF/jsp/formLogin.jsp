@@ -5,7 +5,7 @@
 --%>
 <%@ include file="cabecera.jsp" %>
     <script>
-        var _alert = "<c:out value = '${param.error}'/>";
+        var _alert = "<c:out value = '${errorMessage}'/>";
     </script>
     <script src = "${urlResources}/js/formLogin.js"></script>
         <h1 class = "center-align">McDonald's - Sistema de Gesti&oacute;n</h1><hr>

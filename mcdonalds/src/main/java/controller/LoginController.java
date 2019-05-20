@@ -11,7 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import model.Utilities;
 
 /**
  *
@@ -27,7 +31,11 @@ public class LoginController{
 	}
 	
 	@GetMapping(value = "/formLogin")
-	public String formLogin() {
+	public String formLogin(@RequestParam(value = "error", required = false) String error, Model model){
+		
+		if(error != null)
+			model.addAttribute("errorMessage", Utilities.MENSAJE_ERROR_LOGUEO);
+		
 		return "formLogin";
 	}
 	
@@ -38,9 +46,7 @@ public class LoginController{
 		for(GrantedAuthority rol : authentication.getAuthorities()){
 			if(rol.getAuthority().equals("ADMINISTRADOR"))
 				redirect = "usuarios/listar/0";
-			else if(rol.getAuthority().equals("VENDEDOR"))
-				redirect = "pedidos/listar/0";
-			else if(rol.getAuthority().equals("COCINERO"))
+			else if(rol.getAuthority().equals("VENDEDOR") || rol.getAuthority().equals("COCINERO"))
 				redirect = "pedidos/listar/0";
 		}
 		

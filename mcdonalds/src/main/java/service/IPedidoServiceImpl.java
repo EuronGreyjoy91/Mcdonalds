@@ -1,16 +1,14 @@
 package service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -21,7 +19,6 @@ import model.Pedido;
 import model.Usuario;
 import repository.ItemRepository;
 import repository.PedidoRepository;
-import repository.UsuarioRepository;
 
 @Service
 public class IPedidoServiceImpl implements IPedidoService{
@@ -32,20 +29,17 @@ public class IPedidoServiceImpl implements IPedidoService{
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
-	@Autowired 
-	private UsuarioRepository usuarioRepository;	
-	
 	@Override
-	public List<Pedido> obtenerPedidos(Integer pagina, Integer cantidad) {
-		return pedidoRepository.findAll(PageRequest.of(pagina, cantidad, Sort.by("id").descending())).getContent();
+	public List<Pedido> obtenerPedidos(Specification<Pedido> pedidoSpecification, Pageable pageable) {
+		return pedidoRepository.findAll(pedidoSpecification, pageable).getContent();
 	}
 
 	@Override
-	public void save(String items, BigDecimal monto) {
+	public void save(String items, BigDecimal monto, Usuario vendedor) {
 		Pedido pedido = new Pedido();
-		pedido.setFechaIngreso(new Timestamp(new Date().getTime()));
+		pedido.setFechaIngreso(new Date());
 		pedido.setMonto(monto);
-		pedido.setVendedor(usuarioRepository.findById(2).get());
+		pedido.setVendedor(vendedor);
 		
 		ItemPedidoHelper[] itemsPedido = new Gson().fromJson(items, ItemPedidoHelper[].class);
 		
@@ -67,25 +61,14 @@ public class IPedidoServiceImpl implements IPedidoService{
 	}
 
 	@Override
-	public List<Pedido> obtenerPedidosPorVendedor(Usuario vendedor, Integer pagina, Integer cantidad) {
-		Pageable pageable = PageRequest.of(pagina, cantidad, Sort.by("id").descending());
-		return pedidoRepository.findPedidoByVendedor(vendedor, pageable);
-	}
-
-	@Override
-	public Long contarPedidos() {
-		return pedidoRepository.count();
-	}
-
-	@Override
-	public List<Pedido> obtenerPedidosSinDespachar(Integer pagina, Integer cantidad) {
-		Pageable pageable = PageRequest.of(pagina, cantidad, Sort.by("id").descending());
-		return pedidoRepository.findPedidoByCocineroIsNull(pageable);
+	public Long contarPedidos(Specification<Pedido> pedidoSpecification) {
+		return pedidoRepository.count(pedidoSpecification);
 	}
 
 	@Override
 	public void despacharPedido(Usuario cocinero, Pedido pedido) {
 		pedido.setCocinero(cocinero);
+		pedido.setFechaDespacho(new Date());
 		pedidoRepository.save(pedido);
 	}
 
