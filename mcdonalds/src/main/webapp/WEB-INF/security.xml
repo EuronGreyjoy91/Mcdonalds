@@ -9,10 +9,10 @@
      http://www.springframework.org/schema/security/spring-security.xsd">
 
    <http>
-   		<intercept-url pattern = "/ingredientes/*" access = "hasAnyAuthority('ADMINISTRADOR')"/>
-   		<intercept-url pattern = "/items/*" access = "hasAnyAuthority('ADMINISTRADOR')"/>
-   		<intercept-url pattern = "/itemIngredientes/*" access = "hasAnyAuthority('ADMINISTRADOR')"/>
-   		<intercept-url pattern = "/usuarios/*" access = "hasAnyAuthority('ADMINISTRADOR')"/>
+   		<intercept-url pattern = "/ingredientes/**" access = "hasAnyAuthority('ADMINISTRADOR')"/>
+   		<intercept-url pattern = "/items/**" access = "hasAnyAuthority('ADMINISTRADOR')"/>
+   		<intercept-url pattern = "/itemIngredientes/**" access = "hasAnyAuthority('ADMINISTRADOR')"/>
+   		<intercept-url pattern = "/usuarios/**" access = "hasAnyAuthority('ADMINISTRADOR')"/>
    		<intercept-url pattern = "/pedidos/*" access = "hasAnyAuthority('ADMINISTRADOR, VENDEDOR, COCINERO')"/>
    		
    		<form-login login-page = "/formLogin" default-target-url = "/login/redirectTo"/>
