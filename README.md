@@ -25,6 +25,6 @@ Dentro de la carpeta *documentación* existe un backup de la base de datos con c
 
 ## Autores ✒️
 
-* **Federico Ignacio Ibarra Berardi** - [GitLab](https://gitlab.com/EuronGreyjoy)
+* **Federico Ignacio Ibarra Berardi** - [Github](https://github.com/EuronGreyjoy91)
 
 ---
